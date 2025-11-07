@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XRPL Quiz – Frontend</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --card: #11151a;
+      --muted: #9aa4af;
+      --text: #e5ecf3;
+      --accent: #78c6ff;
+      --ok: #22c55e;
+      --err: #ef4444;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      margin: 0;
+    }
+    header {
+      padding: 16px;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    input, button {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #2a3441;
+      background: #0e1217;
+      color: var(--text);
+    }
+    button:hover { border-color: #344355; cursor: pointer; }
+    main { padding: 16px; display: grid; gap: 16px; max-width: 600px; margin: auto; }
+    .card { background: var(--card); border: 1px solid #1f2937; border-radius: 12px; padding: 16px; }
+    h2 { margin-top: 0; font-size: 1.1em; color: var(--accent); }
+    .muted { color: var(--muted); }
+    #log { white-space: pre-wrap; background: #0a0d11; border-radius: 8px; padding: 12px; min-height: 80px; }
+    .ok { color: var(--ok); } .err { color: var(--err); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>XRPL Quiz – Frontend</h1>
+    <label>Backend URL:</label>
+    <input id="base" type="text" value="http://127.0.0.1:5001" />
+    <button id="ping">Ping</button>
+    <small id="pingStatus" class="muted"></small>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1️⃣ Registrazione</h2>
+      <label>Username</label>
+      <input id="regUser" placeholder="username" />
+      <label>Password</label>
+      <input id="regPass" type="password" placeholder="password" />
+      <button id="register">Registrati</button>
+    </section>
+
+    <section class="card">
+      <h2>2️⃣ Login</h2>
+      <label>Username</label>
+      <input id="loginUser" placeholder="username" />
+      <label>Password</label>
+      <input id="loginPass" type="password" placeholder="password" />
+      <button id="login">Accedi</button>
+      <div id="userInfo" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>3️⃣ Quiz</h2>
+      <button id="startQuiz">Avvia quiz</button>
+      <div id="quizArea"></div>
+    </section>
+
+    <section class="card">
+      <h2>Console</h2>
+      <div id="log"></div>
+      <button id="clearLog">Pulisci log</button>
+    </section>
+  </main>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const logEl = $('#log');
+    const log = (msg, ok=true) => {
+      const cls = ok ? 'ok' : 'err';
+      logEl.innerHTML = `<div class="${cls}">[${new Date().toLocaleTimeString()}] ${msg}</div>` + logEl.innerHTML;
+    };
+
+    const base = () => $('#base').value.replace(/\/$/, '');
+
+    // Ping
+    $('#ping').onclick = async () => {
+      try {
+        const r = await fetch(base() + '/');
+        $('#pingStatus').textContent = r.ok ? '✅ Online' : '❌ Errore';
+        log('Ping OK');
+      } catch {
+        $('#pingStatus').textContent = '❌ Offline';
+        log('Ping fallito', false);
+      }
+    };
+
+    // Register
+    $('#register').onclick = async () => {
+      const username = $('#regUser').value;
+      const password = $('#regPass').value;
+      if (!username || !password) return log('Inserisci username e password', false);
+      try {
+        const res = await fetch(base() + '/register', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({username, password})
+        });
+        const data = await res.json();
+        log('Registrazione: ' + (data.message || JSON.stringify(data)));
+      } catch (e) { log('Errore registrazione', false); }
+    };
+
+    // Login
+    $('#login').onclick = async () => {
+      const username = $('#loginUser').value;
+      const password = $('#loginPass').value;
+      try {
+        const res = await fetch(base() + '/login', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({username, password})
+        });
+        const data = await res.json();
+        if (res.ok && data.token) {
+          log('Login riuscito!');
+          $('#userInfo').textContent = `Utente: ${username}`;
+          localStorage.setItem('token', data.token);
+        } else {
+          log('Credenziali errate', false);
+        }
+      } catch (e) { log('Errore login', false); }
+    };
+
+    // Quiz
+    $('#startQuiz').onclick = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return log('Fai login prima', false);
+      try {
+        const res = await fetch(base() + '/quiz', { headers: {'Authorization': 'Bearer ' + token }});
+        const data = await res.json();
+        $('#quizArea').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        log('Quiz caricato!');
+      } catch { log('Errore nel quiz', false); }
+    };
+
+    $('#clearLog').onclick = () => { logEl.innerHTML = ''; };
+  </script>
+</body>
+</html>
