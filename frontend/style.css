@@ -142,3 +142,7 @@ h1{
 .box button:hover {
     background-color: #d6e104;
 }
+
+.start-btn {
+  font-size: 40px;
+}

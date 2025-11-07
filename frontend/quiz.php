@@ -19,45 +19,65 @@ unset($_SESSION['last_result'], $_SESSION['quiz_error']);
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>XRPL Quiz</title>
+  <title>XRPL Quiz - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&family=Monoton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; }
-    .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-    h1 { text-align: center; color: #0066cc; margin-bottom: 30px; font-size: 2.2em; }
-    .result-box { background: #e8f5e9; border: 2px solid #4caf50; padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center; }
-    .error-box { background: #ffebee; border: 2px solid #d32f2f; padding: 20px; border-radius: 12px; margin: 20px 0; color: #d32f2f; text-align: center; }
-    .answered { font-size: 24px; font-weight: bold; color: #0066cc; margin: 10px 0; }
-    .score { font-size: 32px; font-weight: bold; color: #2e7d32; }
-    button { display: block; width: 100%; padding: 16px; font-size: 20px; background: #0066cc; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; font-weight: bold; }
-    button:hover { background: #004999; }
-    .start-btn { background: #4caf50; }
-    .start-btn:hover { background: #388e3c; }
-    .logout-btn { background: #666; margin-top: 10px; }
-    .logout-btn:hover { background: #444; }
+    .message { margin: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
+    .success { background: rgba(0,255,0,0.2); color: #0f0; border: 1px solid #0f0; }
+    .error { background: rgba(255,0,0,0.2); color: #f66; border: 1px solid #f66; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>XRPL Quiz</h1>
+  <h1>XRPL QUIZ</h1>
+  <div class="overlay"></div>
 
-    <!-- RISULTATO PRECEDENTE -->
-    <?php if ($last_result): ?>
-      <div class="result-box">
-        <h3>Risultato Quiz</h3>
-        <?php if ($last_result['timeout']): ?>
-          <p style="color:red; font-weight:bold; font-size:20px;">Tempo scaduto!</p>
-        <?php endif; ?>
-        <p class="answered">Risposte date: <?= $last_result['answered'] ?>/<?= $last_result['total'] ?></p>
-        <p class="score">Punteggio: <?= $last_result['score'] ?>%</p>
-        <?php if ($last_result['all_correct'] && $last_result['answered'] == $last_result['total']): ?>
-          <p style="color:green; font-weight:bold;">Perfetto! Premio XRP inviato!</p>
-          <p>Transazione: <code><?= $last_result['tx'] ?></code></p>
-          <p><a href="https://test.bithomp.com/explorer/<?= $last_result['tx'] ?>" target="_blank">Vedi su Bithomp</a></p>
-        <?php else: ?>
-          <p>Le domande non risposte sono state contate come sbagliate.</p>
-        <?php endif; ?>
-      </div>
-    <?php endif; ?>
+  <div class="banner">
+    <div class="dots" id="dots"></div>
+    <div class="pacman" id="pacman">
+      <div class="pacman-mouth"></div>
+    </div>
+    <div class="banner-text" id="bannerText">
+      Win up to 200 XRP! Learn Blockchain with XRPL! Compete with others!
+    </div>
+  </div>
+
+  <script>
+    const dotsContainer = document.getElementById("dots");
+    const numDots = Math.ceil(window.innerWidth / 25);
+    for (let i = 0; i < numDots; i++) {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      dotsContainer.appendChild(dot);
+    }
+
+    const pacman = document.getElementById("pacman");
+    const bannerText = document.getElementById("bannerText");
+    const dots = document.querySelectorAll(".dot");
+    let pacX = window.innerWidth + 40;
+    const baseSpeed = 2.5;
+
+    function animate() {
+      pacX -= baseSpeed;
+      pacman.style.left = pacX + "px";
+      bannerText.style.left = (pacX + 60) + "px";
+
+      dots.forEach(dot => {
+        const rect = dot.getBoundingClientRect();
+        if (rect.left < pacX + 20 && rect.right > pacX) {
+          dot.style.opacity = "0";
+        }
+      });
+
+      if (pacX < -bannerText.offsetWidth - 100) {
+        pacX = window.innerWidth + 40;
+        dots.forEach(dot => dot.style.opacity = "1");
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 
     <!-- ERRORE -->
     <?php if ($error): ?>
@@ -67,14 +87,16 @@ unset($_SESSION['last_result'], $_SESSION['quiz_error']);
     <?php endif; ?>
 
     <!-- PULSANTE INIZIA QUIZ -->
+    <div class="box container">
     <form method="POST" action="quiz_single.php">
-      <button type="submit" name="start_quiz" class="start-btn">Inizia Quiz (5 min)</button>
+      <button type="submit" name="start_quiz" class="start-btn">PLAY NOW!</button>
     </form>
-
-    <hr>
+    </div>
+    <div class="container">
     <form action="logout.php" method="POST">
       <button type="submit" class="logout-btn">Logout</button>
     </form>
+    </div>
   </div>
 </body>
 </html>
