@@ -8,7 +8,8 @@ import random
 
 router = APIRouter(tags=["quiz"])
 
-QUIZ_DURATION = 10 # in secondi
+QUIZ_DURATION = 300 # in secondi
+TIME_PER_QUESTION = 2 # in secondi
 REWARD_AMOUNT = 10 # in drops
 
 BASE_QUIZ = [
@@ -16,6 +17,12 @@ BASE_QUIZ = [
     {"id": 2, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
     {"id": 3, "question": "XRPL è stato creato da?", "options": ["Satoshi", "Vitalik", "Ripple Labs", "Binance"], "answer": "Ripple Labs"},
     {"id": 4, "question": "Il token nativo di XRPL è?", "options": ["BTC", "ETH", "XRP", "ADA"], "answer": "XRP"},
+    {"id": 5, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
+    {"id": 6, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
+    {"id": 7, "question": "XRPL è stato creato da?", "options": ["Satoshi", "Vitalik", "Ripple Labs", "Binance"], "answer": "Ripple Labs"},
+    {"id": 8, "question": "Il token nativo di XRPL è?", "options": ["BTC", "ETH", "XRP", "ADA"], "answer": "XRP"},
+    {"id": 9, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
+    {"id": 10, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
 ]
 
 @router.get("/start")
@@ -45,7 +52,8 @@ async def start_quiz(current_user: dict = Depends(get_current_user)):
         "quiz": quiz_with_options,
         "quiz_id": session["quiz_id"],
         "start_time": start_time,
-        "duration": QUIZ_DURATION
+        "duration": QUIZ_DURATION,
+        "time_per_question": TIME_PER_QUESTION
     }
 
 @router.post("/answer")
