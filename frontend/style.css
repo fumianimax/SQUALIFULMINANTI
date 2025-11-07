@@ -1,0 +1,24 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #f2f2f2;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+input, button {
+  display: block;
+  margin: 5px 0;
+  padding: 8px;
+  font-size: 1em;
+}

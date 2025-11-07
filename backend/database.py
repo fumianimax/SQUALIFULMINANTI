@@ -6,16 +6,22 @@ load_dotenv()
 
 client = None
 db = None
+users_col = None
+quiz_col = None
+answers_col = None
 
 def init_db():
     """Inizializza la connessione a MongoDB"""
     global client, db
     try:
         client = MongoClient("mongodb://127.0.0.1:27017")
-        db = client["xrpl_quiz"]  # Nome coerente del DB
-        print("✅ Connected to MongoDB")
+        db = client["xrpl_quiz"]
+        users_col = db["users"]
+        quiz_col = db["quizzes"]
+        answers_col = db["answers"]
+        print("Connected to MongoDB")
     except Exception as e:
-        print("❌ MongoDB connection failed:", e)
+        print("MongoDB connection failed:", e)
 
 def get_db():
     """Ritorna l’oggetto del database"""
