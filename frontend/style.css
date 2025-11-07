@@ -1,24 +1,144 @@
+
 body {
-  font-family: Arial, sans-serif;
-  margin: 40px;
-  background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('menu.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
-h1, h2 {
-  color: #333;
+/* === Banner principale === */
+.banner {
+  width: 250%;
+  height: 60px;
+  background: black;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-form {
-  margin-bottom: 20px;
+/* === Palline === */
+.dots {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.dot {
+  flex-shrink: 0; 
+  width: 10px;
+  height: 10px;
   background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0s;
 }
 
-input, button {
-  display: block;
-  margin: 5px 0;
-  padding: 8px;
-  font-size: 1em;
+/* === Pac-Man === */
+.pacman {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 30px;
+  height: 30px;
+  background: #ffce00;
+  border-radius: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.pacman-mouth {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: black;
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
+  animation: mouthOpen 0.4s infinite;
+}
+
+@keyframes mouthOpen {
+  0%, 100% { clip-path: polygon(50% 50%, 100% 0%, 100% 100%); }
+  50% { clip-path: polygon(50% 50%, 100% 25%, 100% 75%); }
+}
+
+/* === Testo === */
+.banner-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  color: rgb(19, 255, 27);
+  white-space: nowrap;
+  z-index: 5;
+}
+
+
+/* Assicurati che il contenuto sia sopra l’overlay */
+
+/* === Contenitore generale per i box === */
+.container {
+    display: flex;
+    justify-content: center;     /* centra orizzontalmente i box */
+    align-items: flex-start;      /* inizia dall'alto */
+    gap: 50px;                    /* spazio tra registrazione e login */
+    margin-top: 120px;            /* spazio dal banner */
+    flex-wrap: wrap;              /* per adattarsi su schermi piccoli */
+    z-index: 2;
+    position: relative;
+}
+
+/* === Box di login e registrazione === */
+
+h1{
+    font-family: 'Orbitron', serif;
+    font-size: 90px;
+    text-align: center;
+    color: #ff0228;
+    margin-top: 90px;
+    text-shadow: 0 0 10px rgb(255, 255, 255), 0 0 20px black, 0 0 40px black;
+}
+
+.box h2 {
+    font-family: 'Orbitron', serif;
+    font-size: 50px;
+    text-align: center;
+    color: #00b3ff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgb(255, 89, 0), 0 0 20px black, 0 0 40px black;
+}
+
+/* === Campi input === */
+.box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* === Pulsanti === */
+.box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fbff2b;
+    border: none;
+    border-radius: 6px;
+    color: rgb(212, 0, 255);
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.box button:hover {
+    background-color: #d6e104;
 }
