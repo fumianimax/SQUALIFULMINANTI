@@ -12,8 +12,8 @@ async def send_quiz_proof(wallet_seed, data_dict):
     tx = {
         "TransactionType": "Payment",
         "Account": wallet.classic_address,
-        "Amount": "10",  # 10 drops
-        "Destination": wallet.classic_address,
+        "Amount": "10",
+        "Destination": wallet.classic_address, # account del server
         "Memos": [{"Memo": {"MemoData": root.encode().hex()}}]
     }
 

@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Depends
+from xrpl.wallet import generate_faucet_wallet
+from xrpl.clients import JsonRpcClient
+from fastapi import APIRouter, HTTPException
 from passlib.context import CryptContext
 from jose import jwt
 from backend.database import users_col
-import xrpl
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -16,23 +17,27 @@ async def register_user(data: dict):
     username = data["username"]
     password = data["password"]
 
-    if users_col.find_one({"username": username}):
+    if users_col and users_col.find_one({"username": username}):
         raise HTTPException(status_code=400, detail="User already exists")
 
-    # crea XRPL account su testnet
-    client = xrpl.Client("wss://s.altnet.rippletest.net:51233")
-    await client.connect()
-    wallet = await xrpl.wallet.generate_faucet_wallet(client)
-    await client.close()
+    JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
+    client = JsonRpcClient(JSON_RPC_URL)
+
+    # genera un wallet sulla testnet
+    try:
+        wallet = generate_faucet_wallet(client, debug=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"XRPL wallet generation failed: {e}")
 
     users_col.insert_one({
         "username": username,
         "password": hash_password(password),
         "xrpl_address": wallet.classic_address,
-        "seed": wallet.seed,  # in produzione non salvarla! (qui solo per test)
+        "seed": wallet.seed,
     })
 
     return {"msg": "User registered", "xrpl_address": wallet.classic_address}
+
 
 @router.post("/login")
 async def login_user(data: dict):

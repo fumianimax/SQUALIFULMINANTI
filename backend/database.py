@@ -12,7 +12,7 @@ answers_col = None
 
 def init_db():
     """Inizializza la connessione a MongoDB"""
-    global client, db
+    global client, db, users_col, quiz_col, answers_col
     try:
         client = MongoClient("mongodb://127.0.0.1:27017")
         db = client["xrpl_quiz"]
@@ -29,3 +29,5 @@ def get_db():
     if db is None:
         init_db()
     return db
+
+init_db()
