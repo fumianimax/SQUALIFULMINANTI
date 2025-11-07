@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 
 client = None
 db = None
@@ -14,7 +14,12 @@ def init_db():
     """Inizializza la connessione a MongoDB"""
     global client, db, users_col, quiz_col, answers_col
     try:
-        client = MongoClient("mongodb://127.0.0.1:27017")
+        mongo_url = os.getenv("MONGO_URL")
+        if not mongo_url:
+            raise ValueError("MONGO_URL non trovata nel .env")
+        
+        client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
+        client.admin.command('ping')        
         db = client["xrpl_quiz"]
         users_col = db["users"]
         quiz_col = db["quizzes"]

@@ -11,4 +11,4 @@ class UserLogin(BaseModel):
 class AnswerSubmission(BaseModel):
     question_id: int
     answer: str
-    jwt_token: str
+    quiz_id: str
