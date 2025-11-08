@@ -8,7 +8,7 @@ from backend.xrpl_utils import fund_server
 
 app = FastAPI(title="XRPL Quiz App")
 
-# 🔥 Abilita il CORS per il frontend
+# Abilita il CORS per il frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8080"],  # o "*" se sei in test

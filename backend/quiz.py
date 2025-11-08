@@ -17,7 +17,7 @@ import logging
 router = APIRouter(tags=["quiz"])
 
 QUIZ_DURATION = 300
-TIME_PER_QUESTION = 2
+TIME_PER_QUESTION = 4
 REWARD_AMOUNT = 10  # in drops
 
 BASE_QUIZ = [

@@ -1,0 +1,127 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: url('1.png') center center fixed;
+    background-size: cover;
+  margin-left: 20%;
+  margin-right: 20%;
+  padding: 20px;
+}
+
+h1 {    
+    font-family: 'Orbitron', serif;
+    color: #ff0228;
+    font-size: 300%;    
+    text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px black, 0 0 10px black;
+}
+
+.timer {
+  font-family: 'Orbitron', serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: rgb(19, 255, 27);
+  padding: 10px 50px;
+  background: rgba(0, 0, 0, 0.506);
+  border-radius: 8px;
+  
+  /* Posizionamento in alto a destra */
+  position: fixed; /* oppure fixed se vuoi che rimanga anche durante lo scroll */
+  top: 6%;          /* distanza dall'alto */
+  right: 6%;       /* distanza dal bordo destro */
+  
+  display: flex;
+  align-items: center;    /* centrare verticalmente */
+  justify-content: center; /* centrare orizzontalmente */
+
+  /* Centratura del numero */
+  width: 100px;       /* larghezza fissa della casellina */
+  height: 60px;       /* altezza fissa della casellina */
+  line-height: 60px;  /* centra verticalmente il numero */
+}
+
+
+.question {
+    font-family: 'Orbitron', serif;
+    font-size: 180%;
+    color: rgb(212, 0, 255);
+  background: rgba(242, 255, 0, 0.6);
+  padding: 25px;
+  margin: 20px;
+  margin-bottom: 8%;
+  border-radius: 12px;
+  border-left: 6px solid rgba(212, 0, 255, 0.6);
+}
+
+.options {
+  display: grid;
+  font-weight: bold;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonne */
+  gap: 8%; /* spazio tra le opzioni */
+  justify-items: center; /* centra le label orizzontalmente */
+  margin: 0 auto;
+  width: 100%; /* puoi adattare la larghezza generale */
+}
+
+.options label {
+  font-family: 'Orbitron', serif;
+  display: block;
+  padding: 20px;
+  background: #fbff2b;
+  color: rgb(212, 0, 255);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1.1em;
+  width: 100%; /* prende tutta la colonna disponibile */
+  text-align: center;
+}
+
+
+.options label:hover {
+  background-color: #d6e104;
+    color: #fbff2b;
+}
+
+.options input[type="radio"]  {
+  display: none;
+  margin-right: 12px;
+}
+
+.options input[type="radio"]:checked + label {
+  color: #fbff2b;
+  background: rgb(212, 0, 255);
+}
+
+.message {
+  background: #fff3e0;
+  color: #e65100;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 1.3em;
+  animation: fadeIn 0.5s;
+}
+
+.progress {
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #ff0228;
+  border-radius: 5px;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

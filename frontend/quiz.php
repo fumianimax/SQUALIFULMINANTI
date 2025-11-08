@@ -137,7 +137,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
 
   <!-- ERRORE -->
   <?php if ($error): ?>
-    <div class="message error"><p><strong>Error:</strong> <?= htmlspecialchars($error) ?></p></div>
+    <div class="message error"><p><strong>Errore:</strong> <?= htmlspecialchars($error) ?></p></div>
   <?php endif; ?>
 
   <!-- RISULTATO -->
