@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($http_code == 200) {
             $json = json_decode($response, true);
-            $message = "Registrazione OK! Indirizzo: " . $json['xrpl_address'];
+            $message = "Registration: OK! Your address: " . $json['xrpl_address'];
             $message_class = "success";
         } else {
-            $message = "Errore registrazione: " . htmlspecialchars($response);
+            $message = "Registration error: " . htmlspecialchars($response);
             $message_class = "error";
         }
     }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: quiz.php");
             exit();
         } else {
-            $message = "Login fallito: " . htmlspecialchars($response);
+            $message = "Login failed: " . htmlspecialchars($response);
             $message_class = "error";
         }
     }

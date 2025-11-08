@@ -106,7 +106,7 @@ async def send_prize(to_address: str, amount_xrp: float) -> str:
         signed_tx = await autofill_and_sign(tx, client, server_wallet)
         response = await submit_and_wait(signed_tx, client)
         tx_hash = response.result["hash"]
-        logging.info(f"PREMIO {amount_xrp} XRP → {to_address} | TX: {tx_hash}")
+        logging.info(f"PRIZE {amount_xrp} XRP → {to_address} | TX: {tx_hash}")
         return tx_hash
 
     except Exception as e:

@@ -99,26 +99,33 @@ async def get_balance(current_user: dict = Depends(get_current_user)):
             else:
                 raise HTTPException(500, f"Errore XRPL: {str(e)}")
 
-# --- START QUIZ ---
+# --- START QUIZ - ORDINE FISSO 1→10 USANDO IL TUO BASE_QUIZ ---
 @router.get("/start")
 async def start_quiz(current_user: dict = Depends(get_current_user)):
     username = current_user["username"]
     start_time = time.time()
 
-    shuffled = random.sample(BASE_QUIZ, len(BASE_QUIZ))
+    # USA IL TUO BASE_QUIZ MA IN ORDINE FISSO (per ID)
+    ordered_quiz = sorted(BASE_QUIZ, key=lambda x: x["id"])  # ← ORDINA PER ID: 1,2,3,...,10
+
+    # DOMANDE DA MOSTRARE (senza risposta)
     quiz_with_options = [
         {"id": q["id"], "question": q["question"], "options": q["options"]}
-        for q in shuffled
+        for q in ordered_quiz
     ]
     
-    answer_map = {str(q["id"]): q["answer"] for q in shuffled}
+    # MAPPA RISPOSTE
+    answer_map = {str(q["id"]): q["answer"] for q in ordered_quiz}
+
+    # ORDINE FISSO DEGLI ID (1→10)
+    shuffled_questions = [q["id"] for q in ordered_quiz]  # → [1,2,3,4,5,6,7,8,9,10]
 
     session = {
         "username": username,
         "start_time": start_time,
         "quiz_id": int(start_time),
         "answer_map": answer_map,
-        "shuffled_questions": [q["id"] for q in shuffled]
+        "shuffled_questions": shuffled_questions  # ← ORA È SEMPRE 1→10
     }
     quiz_col.insert_one(session)
 
@@ -221,12 +228,12 @@ async def submit_quiz(data: dict, current_user: dict = Depends(get_current_user)
 
     if score == 100:
         prize_tx_hash = await send_prize(destination_address, 200)
-        prize_message = "JACKPOT! Hai vinto 200 XRP!"
+        prize_message = "JACKPOT! You win 200 XRP!"
     elif score >= 90:
         prize_tx_hash = await send_prize(destination_address, 10)
-        prize_message = "Premio di consolazione: 10 XRP!"
+        prize_message = "Consolation prize! You win 10 XRP!"
     else:
-        prize_message = "Nessuna vincita (serviva almeno 90%)"
+        prize_message = "No win for you...\nBut keep on learning about XRPL!"
 
     # --- SALVA TUTTO ---
     quiz_col.update_one(

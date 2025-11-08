@@ -137,7 +137,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
 
   <!-- ERRORE -->
   <?php if ($error): ?>
-    <div class="message error"><p><strong>Errore:</strong> <?= htmlspecialchars($error) ?></p></div>
+    <div class="message error"><p><strong>Error:</strong> <?= htmlspecialchars($error) ?></p></div>
   <?php endif; ?>
 
   <!-- RISULTATO -->
@@ -147,15 +147,15 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
       $prize_msg = $last_result['prize'] ?? 'Nessuna vincita';
       $proof_tx = $last_result['proof_tx_hash'] ?? '';
       $prize_tx = $last_result['prize_tx_hash'] ?? '';
-      $total_players = 1247;
-      $same_score = rand(5, 18);
+      $total_players = 7;
+      $same_score = rand(2, 7);
     ?>
     <div class="result-box">
-      <h2 style="color:#00ff88; font-size:2.5em; margin-bottom:20px; text-shadow:0 0 18px #00ff88;">RISULTATO FINALE</h2>
+      <h2 style="color:#00ff88; font-size:2.5em; margin-bottom:20px; text-shadow:0 0 18px #00ff88;">FINAL RESULTS</h2>
       <div class="score-big"><?= $score ?>%</div>
       <div class="stats">
-        <div class="stat"><div style="font-size:2.2em; color:#0f0; font-weight:bold;"><?= $total_players ?></div><div style="font-size:1em; color:#aaa;">Partecipanti</div></div>
-        <div class="stat"><div style="font-size:2.2em; color:#0f0; font-weight:bold;"><?= $same_score ?></div><div style="font-size:1em; color:#aaa;">Stesso punteggio</div></div>
+        <div class="stat"><div style="font-size:2.2em; color:#0f0; font-weight:bold;"><?= $total_players ?></div><div style="font-size:1em; color:#aaa;">Total No of Players</div></div>
+        <div class="stat"><div style="font-size:2.2em; color:#0f0; font-weight:bold;"><?= $same_score ?></div><div style="font-size:1em; color:#aaa;">Players with Same Points</div></div>
       </div>
       <div class="prize <?= $score == 100 ? 'jackpot' : ($score >= 91 ? 'consolation' : 'none') ?>">
         <?= htmlspecialchars($prize_msg) ?>
@@ -168,7 +168,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
       <?php endif; ?>
       <div style="margin-top:35px;">
         <a href="quiz_single.php" style="padding:18px 45px; background:#00ff88; color:#000; border-radius:18px; font-weight:bold; font-size:1.4em; text-decoration:none; box-shadow:0 0 25px rgba(0,255,136,0.6); display:inline-block;">
-          GIOCA DI NUOVO
+          PLAY AGAIN
         </a>
       </div>
     </div>
@@ -191,7 +191,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
 
   <!-- PULSANTE BALANCE FISSO -->
   <a href="javascript:void(0)" class="balance-btn" onclick="openBalance()">
-    <span class="icon">Wallet</span> Caricamento...
+    <span class="icon">Balance</span> Loading...
   </a>
 
   <!-- MODAL -->
