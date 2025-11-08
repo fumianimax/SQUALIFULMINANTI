@@ -93,9 +93,13 @@ unset($_SESSION['last_result'], $_SESSION['quiz_error']);
     </form>
     </div>
     <div class="container">
+
+    <!-- PULSANTE LOGOUT -->
+    <div class="logout">
     <form action="logout.php" method="POST">
       <button type="submit" class="logout-btn">Logout</button>
     </form>
+    </div>
     </div>
   </div>
 </body>

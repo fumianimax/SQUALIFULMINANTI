@@ -100,7 +100,7 @@ body {
 
 h1{
     font-family: 'Orbitron', serif;
-    font-size: 90px;
+    font-size: 130px;
     text-align: center;
     color: #ff0228;
     margin-top: 90px;
@@ -135,6 +135,7 @@ h1{
     border-radius: 6px;
     color: rgb(212, 0, 255);
     font-weight: bold;
+    font-family: 'Orbitron', serif;
     cursor: pointer;
     box-sizing: border-box;
 }
@@ -144,5 +145,20 @@ h1{
 }
 
 .start-btn {
-  font-size: 40px;
+  width: 450px;        /* controlla la larghezza */
+  height: 135px;        /* controlla l’altezza */
+  padding: 10px;       /* spazio interno */
+  font-size: 62px;
+  font-family: 'Orbitron', serif;
+}
+
+.logout-btn {
+  width: 310px;        /* controlla la larghezza */
+  height: 100px;        /* controlla l’altezza */
+  font-size: 24px;     /* mantiene fisso il testo */
+  padding: 10px;       /* spazio interno */
+  background-color: rgba(144, 1, 22, 0.5);
+  color: #ff0228;
+  font-size: 50px;
+  font-family: 'Orbitron', serif;
 }

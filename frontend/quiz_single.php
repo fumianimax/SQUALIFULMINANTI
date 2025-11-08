@@ -152,20 +152,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
 <head>
   <meta charset="UTF-8">
   <title>XRPL Quiz</title>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; }
-    .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align: center; }
-    h1 { color: #0066cc; font-size: 2em; }
-    .timer { font-size: 36px; font-weight: bold; color: #d32f2f; margin: 20px 0; padding: 10px; background: #ffebee; border-radius: 8px; }
-    .question { background: #f9f9ff; padding: 25px; margin: 20px 0; border-radius: 12px; border-left: 6px solid #0066cc; font-size: 1.3em; }
-    .options label { display: block; margin: 12px 0; padding: 14px; background: #e3f2fd; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 1.1em; }
-    .options label:hover { background: #bbdefb; }
-    .options input[type="radio"] { margin-right: 12px; }
-    .message { background: #fff3e0; color: #e65100; padding: 20px; border-radius: 12px; margin: 20px 0; font-weight: bold; font-size: 1.3em; animation: fadeIn 0.5s; }
-    .progress { height: 10px; background: #e0e0e0; border-radius: 5px; margin: 20px 0; }
-    .progress-bar { height: 100%; background: #0066cc; border-radius: 5px; width: 0%; transition: width 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  </style>
+  <link rel="stylesheet" href="quiz.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&family=Monoton&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
