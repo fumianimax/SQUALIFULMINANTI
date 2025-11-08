@@ -3,7 +3,6 @@ from backend.dependencies import get_current_user
 from backend.database import quiz_col, answers_col, users_col
 from backend.xrpl_utils import send_quiz_proof, send_prize
 import time
-import random
 import os
 import asyncio
 from xrpl.clients import JsonRpcClient
@@ -17,7 +16,7 @@ import logging
 router = APIRouter(tags=["quiz"])
 
 QUIZ_DURATION = 300
-TIME_PER_QUESTION = 4
+TIME_PER_QUESTION = 10
 REWARD_AMOUNT = 10  # in drops
 
 BASE_QUIZ = [
