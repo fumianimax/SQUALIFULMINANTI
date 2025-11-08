@@ -91,17 +91,6 @@ h1 {
   background: rgb(212, 0, 255);
 }
 
-.message {
-  background: #fff3e0;
-  color: #e65100;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  font-weight: bold;
-  font-size: 1.3em;
-  animation: fadeIn 0.5s;
-}
-
 .progress {
   height: 10px;
   background: #e0e0e0;
@@ -124,4 +113,35 @@ h1 {
   to {
     opacity: 1;
   }
+}
+
+.message {
+  background: #7fff7f82;  /* sfondo scuro semi-trasparente */
+  border: 2px solid #7fff7f;          /* bordo verde fluo */
+  border-radius: 20px;                /* angoli arrotondati */
+  padding: 20px 40px;                 /* spazio interno */
+  text-align: center;                 /* testo centrato */
+  color: black; 
+  font-weight: bold;
+  font-size: 20px;                       /* colore del testo secondario */
+  font-family: 'Orbitron', sans-serif;
+  width: fit-content;
+  margin: 20px auto;                  /* centrato orizzontalmente */
+  box-shadow: 0 0 15px rgba(127, 255, 127, 0.3); /* alone luminoso */
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.message:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px rgba(127, 255, 127, 0.5);
+}
+
+h2{
+
+    font-family: 'Orbitron', serif;
+    font-size: 50px;
+    text-align: center;
+    color: #00b3ff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgb(255, 89, 0), 0 0 20px black, 0 0 40px black;
 }

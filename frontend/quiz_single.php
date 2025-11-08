@@ -68,22 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
 
     // MESSAGGI DOPO RISPOSTA
     if ($next == 7) {
-        $_SESSION['quiz_message_after'] = "INTRO 8\nBlockchain is a distributed, decentralized, and immutable digital ledger that records transactions in blocks chronologically linked together in a chain. This technology allows data to be stored and shared in a transparent and secure way, without the need for a central authority, since every participant in the network holds a copy of the ledger. Transactions are grouped into blocks which, once added to the chain, are cryptographically protected and immutable, as modifying a single block would require changing all subsequent blocks on nearly every computer in the network.";
+        $_SESSION['quiz_message_after'] = "BLOCKCHAIN IN PILLS Blockchain is a distributed, decentralised, and immutable digital ledger that records transactions in blocks chronologically linked together in a chain. This technology allows data to be stored and shared in a transparent and secure way. Transactions are cryptographically protected and immutable.";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 8) {
-        $_SESSION['quiz_message_after'] = "WHY??\nQuesta è la motivazione del perchè la risposta giusta era la 2... \nINTRO 9\nThere are 4 main types of blockchains, each defind by who can partecipate, who can read/write data and how consensus is achieved.......!";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Banking, Financial Services and Insurance. <br> Indeed, BFSI generated approximately 38.7% of the global demand for blockchain solutions in 2024. \nBLOCKCHAIN IN PILLS \nThere are four main types of blockchains that can read/write data: public (fully open and decentralised), private (controlled by a single organisation), consortium (controlled by a group of organisations rather than a single entity) and 
+hybrid (combination of public and private blockchains).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 9) {
-        $_SESSION['quiz_message_after'] = "WHY??\nQuesta è la motivazione del perchè la risposta giusta era la 2... \nINTRO 10\nThere are 4 main types of blockchains, each defind by who can partecipate, who can read/write data and how consensus is achieved.......!";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Consortium. Consortium blockchains allow shared control among different banks and let transaction details remain visible only to the involved parties. \nBLOCKCHAIN IN PILLS\nBlockchain nodes are connection points in a blockchain network that receive, store, verify, and transmit transaction data.";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 10) {
-        $_SESSION['quiz_message_after'] = "WHY??\nQuesta è la motivazione del perchè la risposta giusta era la 2...!";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Selector node. The main types of nodes are: full nodes (storing the entire blockchain and validating every transaction), light nodes (storing only block headers) and mining/validator nodes (creating and proposing new blocks).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
         $_SESSION['final_message_ready'] = true;  // <-- Segnala: mostra messaggio e poi submit
@@ -220,7 +221,7 @@ if ($final_message_ready && !$show_message_after) {
 </head>
 <body>
   <div class="container">
-    <h1>Answer [<?= $current_index + 1 ?> / <?= count($quiz_data['quiz'] ?? []) ?>]</h1>
+    <h1>Question [<?= $current_index + 1 ?> / <?= count($quiz_data['quiz'] ?? []) ?>]</h1>
     <div class="progress"><div class="progress-bar" id="progress"></div></div>
 
     <!-- MESSAGGIO DOPO RISPOSTA (5 sec) -->

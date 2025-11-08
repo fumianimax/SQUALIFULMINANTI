@@ -166,11 +166,11 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
       <?php if ($prize_tx && $prize_tx !== "nessuna"): ?>
         <div class="tx">Premio: <a href="https://test.bithomp.com/explorer/<?= $prize_tx ?>" target="_blank"><?= substr($prize_tx, 0, 16) ?>...<?= substr($prize_tx, -12) ?></a></div>
       <?php endif; ?>
-      <div style="margin-top:35px;">
+      <!-- <div style="margin-top:35px;">
         <a href="quiz_single.php" style="padding:18px 45px; background:#00ff88; color:#000; border-radius:18px; font-weight:bold; font-size:1.4em; text-decoration:none; box-shadow:0 0 25px rgba(0,255,136,0.6); display:inline-block;">
           PLAY AGAIN
         </a>
-      </div>
+      </div> -->
     </div>
     <?php unset($_SESSION['last_result'], $_SESSION['quiz_error']); ?>
   <?php else: ?>
