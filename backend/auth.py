@@ -29,20 +29,24 @@ async def register_user(data: dict):
         raise HTTPException(400, "Utente esiste già")
 
     client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
+
     try:
+        # Genera wallet
         wallet = await asyncio.to_thread(generate_faucet_wallet, client, debug=True)
+        
+        users_col.insert_one({
+            "username": username,
+            "password": hash_password(password),
+            "xrpl_address": wallet.classic_address,
+            "seed": wallet.seed,
+            "initial_balance": 10  
+        })
+
+        return {"msg": "User registered", "xrpl_address": wallet.classic_address}
+
     except Exception as e:
         raise HTTPException(500, f"Errore XRPL: {e}")
-
-    users_col.insert_one({
-        "username": username,
-        "password": hash_password(password),
-        "xrpl_address": wallet.classic_address,
-        "seed": wallet.seed,
-    })
-
-    return {"msg": "User registered", "xrpl_address": wallet.classic_address}
-
+    
 @router.post("/login")
 async def login_user(data: dict):
     username = data.get("username")

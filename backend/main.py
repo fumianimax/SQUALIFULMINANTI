@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from backend import auth, quiz
 from backend.database import init_db  # importa la funzione init_db
 from fastapi.middleware.cors import CORSMiddleware
+from backend.xrpl_utils import fund_server
 
 app = FastAPI(title="XRPL Quiz App")
 
@@ -18,8 +19,9 @@ app.add_middleware(
 
 #Inizializza il database all’avvio dell’app
 @app.on_event("startup")
-def startup_event():
+async def startup_event():
     init_db()
+    await fund_server()
     print("Database inizializzato all’avvio")
 
 # Registra le rotte

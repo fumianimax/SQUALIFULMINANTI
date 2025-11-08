@@ -3,4 +3,10 @@ flask-cors
 pymongo
 python-dotenv
 xrpl-py
-#fastapi
+fastapi
+uvicorn[standard]
+xrpl-py>=2.3.0
+pymongo
+python-dotenv
+passlib[bcrypt]
+python-jose[cryptography]

@@ -149,11 +149,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <!-- MESSAGGIO -->
+    <!-- MESSAGGIO -->
   <?php if ($message): ?>
     <p class="message <?= $message_class ?>">
       <?= htmlspecialchars($message) ?>
     </p>
   <?php endif; ?>
+
+  <!-- ERRORE QUIZ -->
+  <?php if (isset($_SESSION['quiz_error'])): ?>
+    <p class="message error">
+      <?= htmlspecialchars($_SESSION['quiz_error']) ?>
+    </p>
+    <?php unset($_SESSION['quiz_error']); ?>
+  <?php endif; ?>
+
+  <!-- RISULTATO QUIZ -->
+  <?php if (isset($_SESSION['last_result'])): ?>
+    <?php
+      $res = $_SESSION['last_result'];
+      $score = $res['score'] ?? 0;
+      $prize = $res['prize'] ?? 'Nessuna vincita';
+      $proof_tx = $res['proof_tx_hash'] ?? '';
+      $prize_tx = $res['prize_tx_hash'] ?? '';
+
+      $total_players = 7;
+      $same_score = rand(1, 7);
+    ?>
+    <div style="margin: 50px auto; max-width: 650px; background: rgba(255,255,255,0.12); backdrop-filter: blur(15px); border-radius: 25px; padding: 30px; border: 2px solid rgba(0,255,136,0.4); box-shadow: 0 0 30px rgba(0,255,136,0.3); text-align: center; font-family: 'Poppins', sans-serif;">
+
+      <h2 style="color: #00ff88; font-size: 2.2em; margin-bottom: 20px; text-shadow: 0 0 15px #00ff88;">
+        RISULTATO FINALE
+      </h2>
+
+      <div style="font-size: 4.5em; font-weight: bold; color: #00ff88; margin: 20px 0; text-shadow: 0 0 20px #00ff88;">
+        <?= $score ?>%
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 25px 0;">
+        <div style="background: rgba(0,255,136,0.15); padding: 15px 25px; border-radius: 15px; border: 2px solid #00ff88; min-width: 160px;">
+          <div style="font-size: 1.8em; font-weight: bold; color: #0f0;"><?= $total_players ?></div>
+          <div style="font-size: 0.9em; color: #aaa;">Partecipanti totali</div>
+        </div>
+        <div style="background: rgba(0,255,136,0.15); padding: 15px 25px; border-radius: 15px; border: 2px solid #00ff88; min-width: 160px;">
+          <div style="font-size: 1.8em; font-weight: bold; color: #0f0;"><?= $same_score ?></div>
+          <div style="font-size: 0.9em; color: #aaa;">Stesso punteggio</div>
+        </div>
+      </div>
+
+      <div style="font-size: 1.8em; padding: 20px; border-radius: 18px; margin: 25px 0; font-weight: bold; 
+        <?= $score == 100 ? 'background: linear-gradient(45deg, #ff0, #f90); color: #000; animation: pulse 2s infinite;' : 
+           ($score >= 90 ? 'background: rgba(0,255,136,0.25); color: #0f0; border: 3px solid #0f0;' : 
+           'background: rgba(255,0,0,0.25); color: #f66; border: 3px solid #f66;') ?>">
+        <?= htmlspecialchars($prize) ?>
+      </div>
+
+      <?php if ($proof_tx && $proof_tx !== "nessuna" && $proof_tx !== "proof_error"): ?>
+        <div style="background: #111; padding: 15px; border-radius: 12px; margin: 15px 0; font-family: monospace; word-break: break-all; font-size: 0.9em;">
+          Proof inviato su XRPL!<br>
+          <a href="https://test.bithomp.com/explorer/<?= $proof_tx ?>" target="_blank" style="color:#00ff88; text-decoration:none;">
+            <?= substr($proof_tx, 0, 14) ?>...<?= substr($proof_tx, -10) ?>
+          </a>
+        </div>
+      <?php endif; ?>
+
+      <?php if ($prize_tx && $prize_tx !== "nessuna" && $prize_tx !== "tx_error"): ?>
+        <div style="background: #111; padding: 15px; border-radius: 12px; margin: 15px 0; font-family: monospace; word-break: break-all; font-size: 0.9em;">
+          Premio inviato!<br>
+          <a href="https://test.bithomp.com/explorer/<?= $prize_tx ?>" target="_blank" style="color:#00ff88; text-decoration:none;">
+            <?= substr($prize_tx, 0, 14) ?>...<?= substr($prize_tx, -10) ?>
+          </a>
+        </div>
+      <?php endif; ?>
+
+      <div style="margin-top: 30px;">
+        <a href="quiz.php" style="display: inline-block; padding: 15px 35px; background: #00ff88; color: #000; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 1.2em; box-shadow: 0 0 20px rgba(0,255,136,0.5);">
+          GIOCA DI NUOVO
+        </a>
+      </div>
+    </div>
+
+    <?php 
+      unset($_SESSION['last_result']);
+      echo "<style>@keyframes pulse { 0%,100% { box-shadow: 0 0 20px #ff0; } 50% { box-shadow: 0 0 40px #ff0; } }</style>";
+    ?>
+  <?php endif; ?>
+
 </body>
 </html>

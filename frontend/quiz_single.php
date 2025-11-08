@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
     }
 
     // FINE QUIZ
-    if ($current_index >= count($quiz_data['quiz'])) {
+    if ($current_index >= count($quiz_data['quiz'] ?? [])) {
         $payload = ["quiz_id" => $quiz_id];
         $ch = curl_init("$api_base/quiz/submit");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -127,23 +127,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
 
         if ($http_code == 200) {
             $result = json_decode($response, true);
-            $answered_count = count(array_filter($answers, fn($v) => $v !== "NESSUNA_RISPOSTA"));
-            $_SESSION['last_result'] = [
-                'score' => $result["score"] ?? 0,
-                'answered' => $answered_count,
-                'total' => count($quiz_data['quiz']),
-                'all_correct' => $result["all_correct"] ?? false,
-                'tx' => $result["tx_hash"] ?? "nessuna",
-                'timeout' => false
-            ];
+            $_SESSION['last_result'] = $result;  // ← SALVA TUTTO
+        } else {
+            $_SESSION['quiz_error'] = "Errore nel completamento del quiz.";
         }
+
+        // PULISCI DATI QUIZ
         unset($_SESSION['current_quiz'], $_SESSION['current_question'], $_SESSION['answers']);
+
+        // TORNA A quiz.php
         header("Location: quiz.php");
         exit();
     }
-
-    header("Location: quiz_single.php");
-    exit();
 }
 ?>
 
@@ -217,27 +212,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
         <script>
           const timePerQuestion = <?= $quiz_data['time_per_question'] ?>;
           let timeLeft = timePerQuestion;
+          let answered = false;  // ← BLOCCA DOPPI INVII
 
           function updateTimer() {
+            if (answered) return;  // ← SE GIÀ INVIATO, BLOCCA
+
             const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
             const secs = String(timeLeft % 60).padStart(2, '0');
             document.getElementById('timer').textContent = `${mins}:${secs}`;
             document.getElementById('progress').style.width = `${((timePerQuestion - timeLeft) / timePerQuestion) * 100}%`;
 
             if (timeLeft <= 0) {
+              answered = true;
+              document.getElementById('hidden_choice').value = "NESSUNA_RISPOSTA";
               document.getElementById('answer_form').submit();
               return;
             }
             timeLeft--;
           }
 
-          setInterval(updateTimer, 1000);
+          // Avvia timer
+          const timerInterval = setInterval(updateTimer, 1000);
           updateTimer();
 
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
+          // Blocca invio multiplo con Enter
+          document.getElementById('answer_form').addEventListener('submit', function(e) {
+            if (answered) {
               e.preventDefault();
-              document.getElementById('answer_form').submit();
+              return false;
+            }
+            answered = true;
+            clearInterval(timerInterval);
+          });
+
+          // Blocca Enter se già inviato
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && answered) {
+              e.preventDefault();
             }
           });
         </script>
@@ -246,3 +257,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
   </div>
 </body>
 </html>
+

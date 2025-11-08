@@ -1,16 +1,24 @@
-# backend/quiz.py
 from fastapi import APIRouter, HTTPException, Depends
-from backend.dependencies import get_current_user  # <-- AGGIUNGI
+from backend.dependencies import get_current_user
 from backend.database import quiz_col, answers_col, users_col
-from backend.xrpl_utils import send_quiz_proof
+from backend.xrpl_utils import send_quiz_proof, send_prize
 import time
 import random
+import os
+import asyncio
+from xrpl.clients import JsonRpcClient
+from xrpl.wallet import Wallet
+from xrpl.models.transactions import Payment
+from xrpl.models.requests import AccountInfo
+from xrpl.transaction import submit_and_wait
+from xrpl.utils import xrp_to_drops
+import logging
 
 router = APIRouter(tags=["quiz"])
 
-QUIZ_DURATION = 300 # in secondi
-TIME_PER_QUESTION = 2 # in secondi
-REWARD_AMOUNT = 10 # in drops
+QUIZ_DURATION = 300
+TIME_PER_QUESTION = 2
+REWARD_AMOUNT = 10  # in drops
 
 BASE_QUIZ = [
     {"id": 1, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
@@ -25,6 +33,73 @@ BASE_QUIZ = [
     {"id": 10, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
 ]
 
+# --- XRPL CLIENT ---
+client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
+
+# --- WALLET SERVER (SICURO) ---
+SERVER_SEED = os.getenv("XRPL_SEED")  # ← .env
+if not SERVER_SEED:
+    raise RuntimeError("XRPL_SEED non impostato in .env")
+
+
+# --- GET BALANCE ---
+@router.get("/balance")
+async def get_balance(current_user: dict = Depends(get_current_user)):
+    username = current_user["username"]
+    user = users_col.find_one({"username": username})
+    if not user or "xrpl_address" not in user:
+        raise HTTPException(400, "Indirizzo XRPL non trovato")
+
+    address = user["xrpl_address"]
+    client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
+
+    max_attempts = 12
+    for attempt in range(max_attempts):
+        try:
+            # ESEGUI IN THREAD SEPARATO
+            info = await asyncio.to_thread(
+                client.request,
+                AccountInfo(
+                    account=address,
+                    ledger_index="validated",
+                    strict=True
+                )
+            )
+
+            balance_drops = int(info.result["account_data"]["Balance"])
+            balance_xrp = balance_drops / 1_000_000
+            reserve = 10.0
+            available = max(0, balance_xrp - reserve)
+
+            return {
+                "balance": round(balance_xrp, 6),
+                "available": round(available, 6),
+                "address": address,
+                "reserve": reserve,
+                "source": "xrpl_testnet",
+                "activated": True
+            }
+
+        except Exception as e:
+            error_msg = str(e).lower()
+            if "account not found" in error_msg or "actnotfound" in error_msg:
+                if attempt < max_attempts - 1:
+                    await asyncio.sleep(5)
+                    continue
+                else:
+                    return {
+                        "balance": 0.0,
+                        "available": 0.0,
+                        "address": address,
+                        "reserve": 10.0,
+                        "source": "xrpl_testnet",
+                        "activated": False,
+                        "error": "Account non ancora attivo. Riprova tra 30 secondi."
+                    }
+            else:
+                raise HTTPException(500, f"Errore XRPL: {str(e)}")
+
+# --- START QUIZ ---
 @router.get("/start")
 async def start_quiz(current_user: dict = Depends(get_current_user)):
     username = current_user["username"]
@@ -36,14 +111,13 @@ async def start_quiz(current_user: dict = Depends(get_current_user)):
         for q in shuffled
     ]
     
-    # FIX: converti chiavi in stringhe
     answer_map = {str(q["id"]): q["answer"] for q in shuffled}
 
     session = {
         "username": username,
         "start_time": start_time,
         "quiz_id": int(start_time),
-        "answer_map": answer_map,  # <-- ora OK
+        "answer_map": answer_map,
         "shuffled_questions": [q["id"] for q in shuffled]
     }
     quiz_col.insert_one(session)
@@ -56,10 +130,11 @@ async def start_quiz(current_user: dict = Depends(get_current_user)):
         "time_per_question": TIME_PER_QUESTION
     }
 
+# --- SUBMIT ANSWER ---
 @router.post("/answer")
 async def submit_answer(data: dict, current_user: dict = Depends(get_current_user)):
     username = current_user["username"]
-    question_id = data["question_id"]  # ← questo è int
+    question_id = data["question_id"]
     choice = data["choice"]
     quiz_id = data["quiz_id"]
 
@@ -67,11 +142,22 @@ async def submit_answer(data: dict, current_user: dict = Depends(get_current_use
     if not session:
         raise HTTPException(404, "Sessione non trovata")
 
-    # FIX: converti question_id in stringa
     correct_answer = session["answer_map"].get(str(question_id))
     if not correct_answer:
         raise HTTPException(404, "Domanda non valida")
 
+    already = answers_col.find_one({
+        "username": username,
+        "quiz_id": quiz_id,
+        "question_id": question_id
+    })
+    if already:
+        return {"correct": already["correct"], "message": "Già risposto"}
+
+    correct_answer = session["answer_map"].get(str(question_id))
+    if not correct_answer:
+        raise HTTPException(404, "Domanda non valida")
+    
     correct = (choice == correct_answer) and (choice != "NESSUNA_RISPOSTA")
 
     answers_col.insert_one({
@@ -84,7 +170,8 @@ async def submit_answer(data: dict, current_user: dict = Depends(get_current_use
     })
 
     return {"correct": correct}
-
+    
+# --- SUBMIT QUIZ (LOGICA COMPLETA) ---
 @router.post("/submit")
 async def submit_quiz(data: dict, current_user: dict = Depends(get_current_user)):
     username = current_user["username"]
@@ -94,48 +181,85 @@ async def submit_quiz(data: dict, current_user: dict = Depends(get_current_user)
     if not session:
         raise HTTPException(404, "Sessione non trovata")
 
-    # RIMUOVI QUESTO CONTROLLO
-    # elapsed = time.time() - session["start_time"]
-    # if elapsed > QUIZ_DURATION:
-    #     raise HTTPException(400, "Tempo scaduto!")
-
     user_answers = list(answers_col.find({"username": username, "quiz_id": quiz_id}))
-    
-    # Se non ci sono risposte → tutte false
-    if not user_answers:
-        score = 0
-        all_correct = False
-    else:
-        all_correct = all(a["correct"] for a in user_answers)
-        score = round((sum(a["correct"] for a in user_answers) / len(BASE_QUIZ)) * 100, 2)
+    total_questions = len(BASE_QUIZ)
 
+    # --- CALCOLO PUNTEGGIO ---
+    correct_count = sum(1 for a in user_answers if a.get("correct", False))
+    score = round((correct_count / total_questions) * 100, 2) if total_questions > 0 else 0
+    all_correct = (correct_count == total_questions)
+
+    # --- RECUPERO DATI UTENTE ---
     user = users_col.find_one({"username": username})
-    wallet_seed = user["seed"]
+    if not user or "seed" not in user or "xrpl_address" not in user:
+        raise HTTPException(400, "Dati XRPL mancanti")
+    
+    user_seed = user["seed"]
+    destination_address = user["xrpl_address"]
 
-    tx_hash = None
-    if all_correct and len(user_answers) == len(BASE_QUIZ):
-        try:
-            tx_hash = await send_quiz_proof(wallet_seed, {
-                "username": username,
-                "score": score,
-                "timestamp": time.time()
-            })
-        except Exception as e:
-            raise HTTPException(500, f"Errore XRPL: {e}")
+    # --- 1. INVIO PROOF (USER → SERVER) ---
+    proof_tx_hash = "nessuna"
+    try:
+        proof_data = {
+            "username": username,
+            "quiz_id": quiz_id,
+            "score": score,
+            "timestamp": time.time(),
+            "answers": [
+                {"q": a["question_id"], "choice": a["choice"], "correct": a["correct"]}
+                for a in user_answers
+            ]
+        }
+        proof_tx_hash = await send_quiz_proof(user_seed, proof_data)
+    except Exception as e:
+        print(f"Errore invio proof: {e}")
+        proof_tx_hash = "proof_error"
 
+    # --- 2. CALCOLO PREMIO + INVIO (SERVER → USER) ---
+    prize_tx_hash = "nessuna"
+    prize_message = ""
+
+    if score == 100:
+        prize_tx_hash = await send_prize(destination_address, 200)
+        prize_message = "JACKPOT! Hai vinto 200 XRP!"
+    elif score >= 90:
+        prize_tx_hash = await send_prize(destination_address, 10)
+        prize_message = "Premio di consolazione: 10 XRP!"
+    else:
+        prize_message = "Nessuna vincita (serviva almeno 90%)"
+
+    # --- SALVA TUTTO ---
     quiz_col.update_one(
         {"username": username, "quiz_id": quiz_id},
         {"$set": {
             "score": score,
-            "tx_hash": tx_hash,
+            "all_correct": all_correct,
+            "proof_tx_hash": proof_tx_hash,
+            "prize_tx_hash": prize_tx_hash,
+            "prize_message": prize_message,
+            "prize": prize_message,
             "completed": True,
             "completed_at": time.time()
-        }}
+        }},
+        upsert=True
     )
 
     return {
         "msg": "Quiz completato!",
         "score": score,
         "all_correct": all_correct,
-        "tx_hash": tx_hash
+        "proof_tx_hash": proof_tx_hash,
+        "prize_tx_hash": prize_tx_hash,
+        "prize": prize_message
     }
+
+@router.get("/result")
+async def get_result(quiz_id: int, current_user: dict = Depends(get_current_user)):
+    username = current_user["username"]
+    result = quiz_col.find_one(
+        {"username": username, "quiz_id": quiz_id, "completed": True},
+        {"_id": 0, "score": 1, "prize": 1, "proof_tx_hash": 1, "prize_tx_hash": 1}
+    )
+    if not result:
+        raise HTTPException(404, "Risultato non trovato")
+    return result
