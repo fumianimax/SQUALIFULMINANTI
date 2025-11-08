@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: url('1.png') no-repeat center center fixed;
+  background: url('1.png') center center fixed;
     background-size: cover;
   margin-left: 20%;
   margin-right: 20%;
@@ -10,7 +10,8 @@ body {
 h1 {    
     font-family: 'Orbitron', serif;
     color: #ff0228;
-    font-size: 300%;
+    font-size: 300%;    
+    text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px black, 0 0 10px black;
 }
 
 .timer {
@@ -19,7 +20,7 @@ h1 {
   font-weight: bold;
   color: rgb(19, 255, 27);
   padding: 10px 50px;
-  background: rgba(162, 60, 75, 0.6);
+  background: rgba(0, 0, 0, 0.506);
   border-radius: 8px;
   
   /* Posizionamento in alto a destra */
@@ -76,12 +77,18 @@ h1 {
 
 
 .options label:hover {
-  background: #d6e104;
+  background-color: #d6e104;
+    color: #fbff2b;
 }
 
-.options input[type="radio"] {
-    color: #ff0228;
+.options input[type="radio"]  {
+  display: none;
   margin-right: 12px;
+}
+
+.options input[type="radio"]:checked + label {
+  color: #fbff2b;
+  background: rgb(212, 0, 255);
 }
 
 .message {

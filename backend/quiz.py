@@ -9,7 +9,7 @@ import random
 router = APIRouter(tags=["quiz"])
 
 QUIZ_DURATION = 300 # in secondi
-TIME_PER_QUESTION = 120 # in secondi
+TIME_PER_QUESTION = 20 # in secondi
 REWARD_AMOUNT = 10 # in drops
 
 BASE_QUIZ = [

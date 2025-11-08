@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
 </head>
 <body>
   <div class="container">
-    <h1>Domanda <?= $current_index + 1 ?> / <?= count($quiz_data['quiz'] ?? []) ?></h1>
+    <h1>Answer [<?= $current_index + 1 ?> / <?= count($quiz_data['quiz'] ?? []) ?>]</h1>
     <div class="progress"><div class="progress-bar" id="progress"></div></div>
 
     <!-- MESSAGGIO DOPO RISPOSTA (5 sec) -->
@@ -194,13 +194,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
           <input type="hidden" name="choice" value="NESSUNA_RISPOSTA" id="hidden_choice">
           <input type="hidden" name="submit_answer" value="1">
           <div class="options">
-            <?php foreach ($q['options'] as $opt): ?>
-              <label>
-                <input type="radio" name="choice" value="<?= htmlspecialchars($opt) ?>" onchange="document.getElementById('hidden_choice').value = this.value;">
-                <?= htmlspecialchars($opt) ?>
-              </label>
+            <?php foreach ($q['options'] as $index => $opt): ?>
+              <input type="radio" id="r<?= $index ?>" name="choice" value="<?= htmlspecialchars($opt) ?>" onchange="document.getElementById('hidden_choice').value = this.value;">
+              <label for="r<?= $index ?>"><?= htmlspecialchars($opt) ?></label>
             <?php endforeach; ?>
           </div>
+
+        <input type="hidden" id="hidden_choice" name="hidden_choice">
+
         </form>
 
         <script>
