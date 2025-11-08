@@ -21,16 +21,16 @@ TIME_PER_QUESTION = 2
 REWARD_AMOUNT = 10  # in drops
 
 BASE_QUIZ = [
-    {"id": 1, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
-    {"id": 2, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
-    {"id": 3, "question": "XRPL è stato creato da?", "options": ["Satoshi", "Vitalik", "Ripple Labs", "Binance"], "answer": "Ripple Labs"},
-    {"id": 4, "question": "Il token nativo di XRPL è?", "options": ["BTC", "ETH", "XRP", "ADA"], "answer": "XRP"},
-    {"id": 5, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
-    {"id": 6, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
-    {"id": 7, "question": "XRPL è stato creato da?", "options": ["Satoshi", "Vitalik", "Ripple Labs", "Binance"], "answer": "Ripple Labs"},
-    {"id": 8, "question": "Il token nativo di XRPL è?", "options": ["BTC", "ETH", "XRP", "ADA"], "answer": "XRP"},
-    {"id": 9, "question": "Qual è il capitale della Francia?", "options": ["Roma","Parigi","Berlino","Madrid"], "answer": "Parigi"},
-    {"id": 10, "question": "Chi ha scritto '1984'?", "options": ["Orwell","Dante","Hemingway","Kafka"], "answer": "Orwell"},
+    {"id": 1, "question": "Who wrote the novel “1984”?", "options": ["George Orwell","Oscar Wilde","Josè Seramago","Luigi Pirandello"], "answer": "George Orwell"},
+    {"id": 2, "question": "What is the largest desert in the world (by area)?", "options": ["Sahara Desert","Antarctic Desert","Chihuahuan desert","Polar Desert"], "answer": "Antarctic Desert"},
+    {"id": 3, "question": "What planet is known as the “Red Planet”?", "options": ["Mars", "Jupiter", "Venus", "Uranus"], "answer": "Mars"},
+    {"id": 4, "question": "Which ancient civilisation built the Machu Picchu complex in Peru?", "options": ["Aztecs", "Mayans", "Incas", "Olmecs"], "answer": "Incas"},
+    {"id": 5, "question": "Which of these instruments is not part of the brass family?", "options": ["Saxophone","Trumpet","Contrabass tuba","Horn"], "answer": "Saxophone"},
+    {"id": 6, "question": "What is the nationality of most of Paul Gauguin’s models?", "options": ["Vietnamese","French","Polynesian","Canadian"], "answer": "Polynesian"},
+    {"id": 7, "question": "In which italian city did the event 'Hackathon', focused on XRPL and cryptography, take place in 2025?", "options": ["Rome", "Turin", "Milan", "Florence"], "answer": "Rome"},
+    {"id": 8, "question": "In which fields do you think blockchains could be used the most?", "options": ["Discrete Manufacturing ", "Banking, Financial Services and Insurance", "Family farms and small agricultural businesses", "Car braking systems"], "answer": "Banking, Financial Services and Insurance"},
+    {"id": 9, "question": "If a bank wanted to use blockchain for interbank payments, which type would be the most suitable?", "options": ["Public blockchain","Private blockchain","Consortium blockchain","Hybrid blockchain"], "answer": "Consortium blockchain"},
+    {"id": 10, "question": "Which of the following is not a blockchain node?", "options": ["full node","selector node","light node","mining node"], "answer": "selector node"},
 ]
 
 # --- XRPL CLIENT ---
