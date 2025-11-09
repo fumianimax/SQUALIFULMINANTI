@@ -23,19 +23,19 @@ h1 {
   background: rgba(0, 0, 0, 0.506);
   border-radius: 8px;
   
-  /* Posizionamento in alto a destra */
-  position: fixed; /* oppure fixed se vuoi che rimanga anche durante lo scroll */
-  top: 6%;          /* distanza dall'alto */
-  right: 6%;       /* distanza dal bordo destro */
+  /* Position: High-Right */
+  position: fixed;
+  top: 6%;                  /* distance from the top */
+  right: 6%;                /* distance from right border */
   
   display: flex;
-  align-items: center;    /* centrare verticalmente */
-  justify-content: center; /* centrare orizzontalmente */
+  align-items: center;      /* vertical centering */
+  justify-content: center;  /* horizontal centering */
 
-  /* Centratura del numero */
-  width: 100px;       /* larghezza fissa della casellina */
-  height: 60px;       /* altezza fissa della casellina */
-  line-height: 60px;  /* centra verticalmente il numero */
+  /* Number centering */
+  width: 100px;
+  height: 60px;
+  line-height: 60px;
 }
 
 
@@ -54,11 +54,11 @@ h1 {
 .options {
   display: grid;
   font-weight: bold;
-  grid-template-columns: repeat(2, 1fr); /* 2 colonne */
-  gap: 8%; /* spazio tra le opzioni */
-  justify-items: center; /* centra le label orizzontalmente */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8%;
+  justify-items: center;
   margin: 0 auto;
-  width: 100%; /* puoi adattare la larghezza generale */
+  width: 100%;
 }
 
 .options label {
@@ -71,7 +71,7 @@ h1 {
   cursor: pointer;
   transition: 0.2s;
   font-size: 1.1em;
-  width: 100%; /* prende tutta la colonna disponibile */
+  width: 100%;
   text-align: center;
 }
 
@@ -116,18 +116,18 @@ h1 {
 }
 
 .message {
-  background: #7fff7f82;  /* sfondo scuro semi-trasparente */
-  border: 2px solid #7fff7f;          /* bordo verde fluo */
-  border-radius: 20px;                /* angoli arrotondati */
-  padding: 20px 40px;                 /* spazio interno */
-  text-align: center;                 /* testo centrato */
+  background: #7fff7f82; 
+  border: 2px solid #7fff7f;       
+  border-radius: 20px;          
+  padding: 20px 40px;     
+  text-align: center;        
   color: black; 
   font-weight: bold;
-  font-size: 20px;                       /* colore del testo secondario */
+  font-size: 20px;                   
   font-family: 'Orbitron', sans-serif;
   width: fit-content;
-  margin: 20px auto;                  /* centrato orizzontalmente */
-  box-shadow: 0 0 15px rgba(127, 255, 127, 0.3); /* alone luminoso */
+  margin: 20px auto;            
+  box-shadow: 0 0 15px rgba(127, 255, 127, 0.3); 
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 

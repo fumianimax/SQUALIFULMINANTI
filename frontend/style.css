@@ -7,7 +7,7 @@ body {
     background-size: cover;
 }
 
-/* === Banner principale === */
+/* === MAIN BANNER === */
 .banner {
   width: 250%;
   height: 60px;
@@ -20,7 +20,7 @@ body {
   justify-content: flex-start;
 }
 
-/* === Palline === */
+/* === DOTS === */
 .dots {
   position: absolute;
   top: 50%;
@@ -42,7 +42,7 @@ body {
   transition: opacity 0s;
 }
 
-/* === Pac-Man === */
+/* === PAC-MAN === */
 .pacman {
   position: absolute;
   top: 50%;
@@ -70,7 +70,7 @@ body {
   50% { clip-path: polygon(50% 50%, 100% 25%, 100% 75%); }
 }
 
-/* === Testo === */
+/* === TEXT === */
 .banner-text {
   position: absolute;
   top: 50%;
@@ -82,12 +82,12 @@ body {
 }
 
 
-/* Assicurati che il contenuto sia sopra l’overlay */
+/* CONTENT OVER THE OVERLAY */
 
-/* === Contenitore generale per i box === */
+/* === CONTAINER FOR BOXES === */
 .container {
     display: flex;
-    justify-content: center;     /* centra orizzontalmente i box */
+    justify-content: center;      /* centra orizzontalmente i box */
     align-items: flex-start;      /* inizia dall'alto */
     gap: 50px;                    /* spazio tra registrazione e login */
     margin-top: 120px;            /* spazio dal banner */
@@ -96,7 +96,7 @@ body {
     position: relative;
 }
 
-/* === Box di login e registrazione === */
+/* === LOGIN BOX AND REGISTRATION BOX === */
 
 h1{
     font-family: 'Orbitron', serif;
@@ -116,7 +116,7 @@ h1{
     text-shadow: 0 0 5px rgb(255, 89, 0), 0 0 20px black, 0 0 40px black;
 }
 
-/* === Campi input === */
+/* === INPUT FIELDS === */
 .box input {
     width: 100%;
     padding: 10px;
@@ -126,7 +126,7 @@ h1{
     box-sizing: border-box;
 }
 
-/* === Pulsanti === */
+/* === BUTTONS === */
 .box button {
     width: 100%;
     padding: 10px;
@@ -145,7 +145,7 @@ h1{
 
 .start-btn {
   width: 450px;        /* controlla la larghezza */
-  height: 135px;        /* controlla l’altezza */
+  height: 135px;       /* controlla l’altezza */
   padding: 10px;       /* spazio interno */
   font-size: 62px;
   font-family: 'Orbitron', serif;
@@ -153,7 +153,7 @@ h1{
 
 .logout-btn {
   width: 310px;        /* controlla la larghezza */
-  height: 100px;        /* controlla l’altezza */
+  height: 100px;       /* controlla l’altezza */
   font-size: 24px;     /* mantiene fisso il testo */
   padding: 10px;       /* spazio interno */
   background-color: rgba(144, 1, 22, 0.5);

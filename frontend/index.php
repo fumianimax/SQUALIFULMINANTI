@@ -1,5 +1,4 @@
 <?php
-// OBBLIGATORIO: session_start() SEMPRE PRIMA
 session_start();
 $api_base = "http://127.0.0.1:8000";
 $message = "";
@@ -7,7 +6,7 @@ $message_class = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // --- REGISTRAZIONE ---
+    // --- REGISTRATION ---
     if (isset($_POST["register"])) {
         $username = trim($_POST["username"]);
         $password = substr($_POST["password"], 0, 72);
@@ -28,7 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Registration: OK! Your address: " . $json['xrpl_address'];
             $message_class = "success";
         } else {
-            $message = "Registration error: " . htmlspecialchars($response);
+            $json = json_decode($response, true);
+            if (json_last_error() === JSON_ERROR_NONE && isset($json['detail'])) {
+                $message = "Registration error: " . $json['detail'];
+            } else {
+                $message = "Registration error: Unknown error (code $http_code)";
+            }
             $message_class = "error";
         }
     }
@@ -56,7 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: quiz.php");
             exit();
         } else {
-            $message = "Login failed: " . htmlspecialchars($response);
+            $json = json_decode($response, true);
+            if (json_last_error() === JSON_ERROR_NONE && isset($json['detail'])) {
+                $message = "Login failed: " . $json['detail'];
+            } else {
+                $message = "Login failed: Unknown error (code $http_code)";
+            }
             $message_class = "error";
         }
     }
@@ -128,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </script>
 
   <div class="container">
-    <!-- REGISTRAZIONE -->
+    <!-- REGISTRATION -->
     <div class="box register-box">
       <h2>Sign-up</h2>
       <form method="POST">
@@ -149,14 +158,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-    <!-- MESSAGGIO -->
+    <!-- MESSAGE -->
   <?php if ($message): ?>
     <p class="message <?= $message_class ?>">
       <?= htmlspecialchars($message) ?>
     </p>
   <?php endif; ?>
 
-  <!-- ERRORE QUIZ -->
+  <!-- ERROR QUIZ -->
   <?php if (isset($_SESSION['quiz_error'])): ?>
     <p class="message error">
       <?= htmlspecialchars($_SESSION['quiz_error']) ?>
@@ -164,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php unset($_SESSION['quiz_error']); ?>
   <?php endif; ?>
 
-  <!-- RISULTATO QUIZ -->
+  <!-- QUIZ RESULT -->
   <?php if (isset($_SESSION['last_result'])): ?>
     <?php
       $res = $_SESSION['last_result'];
@@ -179,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div style="margin: 50px auto; max-width: 650px; background: rgba(255,255,255,0.12); backdrop-filter: blur(15px); border-radius: 25px; padding: 30px; border: 2px solid rgba(0,255,136,0.4); box-shadow: 0 0 30px rgba(0,255,136,0.3); text-align: center; font-family: 'Poppins', sans-serif;">
 
       <h2 style="color: #00ff88; font-size: 2.2em; margin-bottom: 20px; text-shadow: 0 0 15px #00ff88;">
-        RISULTATO FINALE
+        FINAL RESULTS
       </h2>
 
       <div style="font-size: 4.5em; font-weight: bold; color: #00ff88; margin: 20px 0; text-shadow: 0 0 20px #00ff88;">
@@ -224,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <div style="margin-top: 30px;">
         <a href="quiz.php" style="display: inline-block; padding: 15px 35px; background: #00ff88; color: #000; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 1.2em; box-shadow: 0 0 20px rgba(0,255,136,0.5);">
-          GIOCA DI NUOVO
+          PLAY AGAIN
         </a>
       </div>
     </div>

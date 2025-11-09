@@ -9,11 +9,11 @@ $api_base = "http://127.0.0.1:8000";
 $token = $_SESSION["token"];
 $quiz_id = $_POST["quiz_id"] ?? null;
 
-// DEBUG: vedi cosa arriva
+// DEBUG
 error_log("submit_quiz.php - quiz_id: " . ($quiz_id ?? 'NULL'));
 
 if (!$quiz_id) {
-    $_SESSION['quiz_error'] = "Quiz ID mancante. Riprova.";
+    $_SESSION['quiz_error'] = "Quiz ID missing. Retry.";
     header("Location: index.php");
     exit();
 }

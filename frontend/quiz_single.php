@@ -12,7 +12,7 @@ if (!isset($_SESSION["token"])) {
     exit();
 }
 
-// PULISCI SOLO ALL'INIZIO
+// RESET MEX IN A NEW QUIZ
 if (isset($_POST["start_quiz"]) || !isset($_SESSION['current_quiz'])) {
     unset($_SESSION['quiz_message_after'], $_SESSION['show_message_after'], 
           $_SESSION['message_duration'], $_SESSION['final_message_ready']);
@@ -26,7 +26,7 @@ $show_message_after = $_SESSION['show_message_after'] ?? false;
 $message_duration = $_SESSION['message_duration'] ?? 5000;
 $final_message_ready = $_SESSION['final_message_ready'] ?? false;
 
-// --- AVVIO QUIZ ---
+// --- QUIZ START ---
 if (isset($_POST["start_quiz"])) {
     $ch = curl_init("$api_base/quiz/start");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -45,7 +45,7 @@ if (isset($_POST["start_quiz"])) {
     }
 }
 
-// --- INVIO RISPOSTA ---
+// --- SEND ANSWERS ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || isset($_POST["timeout"]))) {
     $choice = $_POST["choice"] ?? "NESSUNA_RISPOSTA";
     $qid = (int)$_POST["qid"];
@@ -62,39 +62,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
 
     $_SESSION['answers'][$qid] = $choice;
 
-    // Incrementa normalmente
     $next = ($current_index + 1);
     $_SESSION['current_question'] = $next;
 
-    // MESSAGGI DOPO RISPOSTA
+    // DESCRIPTION BEFORE AND AFTER XRP QUESTIONS
     if ($next == 7) {
-        $_SESSION['quiz_message_after'] = "BLOCKCHAIN IN PILLS Blockchain is a distributed, decentralised, and immutable digital ledger that records transactions in blocks chronologically linked together in a chain. This technology allows data to be stored and shared in a transparent and secure way. Transactions are cryptographically protected and immutable.";
+        $_SESSION['quiz_message_after'] = "BLOCKCHAIN IN PILLS\n Blockchain is a distributed, decentralised, and immutable digital ledger that records transactions in blocks chronologically linked together in a chain. This technology allows data to be stored and shared in a transparent and secure way. Transactions are cryptographically protected and immutable.";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 8) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Banking, Financial Services and Insurance. <br> Indeed, BFSI generated approximately 38.7% of the global demand for blockchain solutions in 2024. \nBLOCKCHAIN IN PILLS \nThere are four main types of blockchains that can read/write data: public (fully open and decentralised), private (controlled by a single organisation), consortium (controlled by a group of organisations rather than a single entity) and 
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Banking, Financial Services and Insurance. <br> Indeed, BFSI generated approximately 38.7% of the global demand for blockchain solutions in 2024. \nBLOCKCHAIN IN PILLS\n There are four main types of blockchains that can read/write data: public (fully open and decentralised), private (controlled by a single organisation), consortium (controlled by a group of organisations rather than a single entity) and 
 hybrid (combination of public and private blockchains).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 9) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Consortium. Consortium blockchains allow shared control among different banks and let transaction details remain visible only to the involved parties. \nBLOCKCHAIN IN PILLS\nBlockchain nodes are connection points in a blockchain network that receive, store, verify, and transmit transaction data.";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Consortium. Consortium blockchains allow shared control among different banks and let transaction details remain visible only to the involved parties. \nBLOCKCHAIN IN PILLS\n Blockchain nodes are connection points in a blockchain network that receive, store, verify, and transmit transaction data.";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 10) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER: Selector node. The main types of nodes are: full nodes (storing the entire blockchain and validating every transaction), light nodes (storing only block headers) and mining/validator nodes (creating and proposing new blocks).";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Selector node. The main types of nodes are: full nodes (storing the entire blockchain and validating every transaction), light nodes (storing only block headers) and mining/validator nodes (creating and proposing new blocks).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
-        $_SESSION['final_message_ready'] = true;  // <-- Segnala: mostra messaggio e poi submit
+        $_SESSION['final_message_ready'] = true;
     }
 
     header("Location: quiz_single.php");
     exit();
 }
 
-// DOPO L'ULTIMO MESSAGGIO → SUBMIT FINALE
+// AFTER LAST MESSAGE, SUBMIT QUIZ
 if ($final_message_ready && !$show_message_after) {
     $quiz_id = $quiz_data['quiz_id'];
     $ch = curl_init("$api_base/quiz/submit");
@@ -108,7 +107,7 @@ if ($final_message_ready && !$show_message_after) {
     $result = json_decode($response, true);
     $_SESSION['last_result'] = $result;
 
-    // PULISCI TUTTO
+    // RESET QUIZ DATA
     unset($_SESSION['current_quiz'], $_SESSION['current_question'], $_SESSION['answers'], $_SESSION['final_message_ready']);
     header("Location: quiz.php");
     exit();

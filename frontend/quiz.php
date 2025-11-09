@@ -51,7 +51,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
     .address { font-family: monospace; background: #111; padding: 12px; border-radius: 10px; margin: 15px 0; word-break: break-all; font-size: 0.9em; }
     .close-modal { background: #00ff88; color: #000; border: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; }
 
-    /* RISULTATO */
+    /* RESULT */
     .result-box { margin: 50px auto; max-width: 750px; background: rgba(255,255,255,0.12); backdrop-filter: blur(15px); border-radius: 25px; padding: 35px; border: 2px solid rgba(0,255,136,0.4); box-shadow: 0 0 35px rgba(0,255,136,0.3); text-align: center; }
     .score-big { font-size: 5.5em; font-weight: bold; color: #00ff88; margin: 20px 0; text-shadow: 0 0 25px #00ff88; }
     .stats { display: flex; justify-content: center; gap: 35px; flex-wrap: wrap; margin: 30px 0; }
@@ -80,7 +80,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
   </div>
 
   <script>
-    // Animazione Pacman
+    // Pacman animation
     const dotsContainer = document.getElementById("dots");
     const numDots = Math.ceil(window.innerWidth / 25);
     for (let i = 0; i < numDots; i++) {
@@ -119,7 +119,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
     }
     function fetchBalance() {
       const btn = document.querySelector(".balance-btn");
-      btn.innerHTML = '<span class="icon">Loading...</span> Aggiornamento...';
+      btn.innerHTML = '<span class="icon">Loading...</span> Updating...';
       fetch("<?= $api_base ?>/quiz/balance", {
         headers: { "Authorization": "Bearer <?= $token ?>" }
       })
@@ -135,12 +135,12 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
     }
   </script>
 
-  <!-- ERRORE -->
+  <!-- ERROR -->
   <?php if ($error): ?>
     <div class="message error"><p><strong>Errore:</strong> <?= htmlspecialchars($error) ?></p></div>
   <?php endif; ?>
 
-  <!-- RISULTATO -->
+  <!-- RESULT -->
   <?php if ($last_result): ?>
     <?php
       $score = $last_result['score'] ?? 0;
@@ -166,11 +166,6 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
       <?php if ($prize_tx && $prize_tx !== "nessuna"): ?>
         <div class="tx">Premio: <a href="https://test.bithomp.com/explorer/<?= $prize_tx ?>" target="_blank"><?= substr($prize_tx, 0, 16) ?>...<?= substr($prize_tx, -12) ?></a></div>
       <?php endif; ?>
-      <!-- <div style="margin-top:35px;">
-        <a href="quiz_single.php" style="padding:18px 45px; background:#00ff88; color:#000; border-radius:18px; font-weight:bold; font-size:1.4em; text-decoration:none; box-shadow:0 0 25px rgba(0,255,136,0.6); display:inline-block;">
-          PLAY AGAIN
-        </a>
-      </div> -->
     </div>
     <?php unset($_SESSION['last_result'], $_SESSION['quiz_error']); ?>
   <?php else: ?>
@@ -189,7 +184,7 @@ $xrpl_address = $_SESSION['xrpl_address'] ?? 'r...';
     </form>
   </div>
 
-  <!-- PULSANTE BALANCE FISSO -->
+  <!-- BALANCE BUTTON FIXED -->
   <a href="javascript:void(0)" class="balance-btn" onclick="openBalance()">
     <span class="icon">Balance</span> Loading...
   </a>
