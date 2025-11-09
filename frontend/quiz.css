@@ -129,6 +129,7 @@ h1 {
   margin: 20px auto;            
   box-shadow: 0 0 15px rgba(127, 255, 127, 0.3); 
   transition: transform 0.2s ease, box-shadow 0.3s ease;
+  white-space: pre-line;
 }
 
 .message:hover {

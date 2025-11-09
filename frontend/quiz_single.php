@@ -72,18 +72,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && (isset($_POST["submit_answer"]) || i
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 8) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Banking, Financial Services and Insurance. <br> Indeed, BFSI generated approximately 38.7% of the global demand for blockchain solutions in 2024. \nBLOCKCHAIN IN PILLS\n There are four main types of blockchains that can read/write data: public (fully open and decentralised), private (controlled by a single organisation), consortium (controlled by a group of organisations rather than a single entity) and 
-hybrid (combination of public and private blockchains).";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Banking, Financial Services and Insurance.\n Indeed, BFSI generated approximately 38.7% of the global demand for blockchain solutions in 2024. \nBLOCKCHAIN IN PILLS\n There are four main types of blockchains that can read/write data: public (fully open and decentralised), private (controlled by a single organisation), consortium (controlled by a group of organisations rather than a single entity) and hybrid (combination of public and private blockchains).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 9) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Consortium. Consortium blockchains allow shared control among different banks and let transaction details remain visible only to the involved parties. \nBLOCKCHAIN IN PILLS\n Blockchain nodes are connection points in a blockchain network that receive, store, verify, and transmit transaction data.";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Consortium.\n Consortium blockchains allow shared control among different banks and let transaction details remain visible only to the involved parties. \nBLOCKCHAIN IN PILLS\n Blockchain nodes are connection points in a blockchain network that receive, store, verify, and transmit transaction data.";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
     }
     elseif ($next == 10) {
-        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Selector node. The main types of nodes are: full nodes (storing the entire blockchain and validating every transaction), light nodes (storing only block headers) and mining/validator nodes (creating and proposing new blocks).";
+        $_SESSION['quiz_message_after'] = "CORRECT ANSWER:\n Selector node.\n The main types of nodes are: full nodes (storing the entire blockchain and validating every transaction), light nodes (storing only block headers) and mining/validator nodes (creating and proposing new blocks).";
         $_SESSION['show_message_after'] = true;
         $_SESSION['message_duration'] = 8000;
         $_SESSION['final_message_ready'] = true;
@@ -225,7 +224,7 @@ if ($final_message_ready && !$show_message_after) {
 
     <!-- MESSAGGIO DOPO RISPOSTA (5 sec) -->
     <?php if ($show_message_after && $message_after): ?>
-      <div class="message"><?= htmlspecialchars($message_after) ?></div>
+      <div class="message"><?= nl2br(htmlspecialchars($message_after)) ?></div>
       <script>
         setTimeout(() => {
           window.location.href = "quiz_single.php";
@@ -234,7 +233,7 @@ if ($final_message_ready && !$show_message_after) {
 
     <!-- MESSAGGIO PRIMA DELLA DOMANDA (5 sec) -->
     <?php elseif ($show_message_before && $message_before): ?>
-      <div class="message"><?= htmlspecialchars($message_before) ?></div>
+      <div class="message"><?= nl2br(htmlspecialchars($message_before)) ?></div>
       <script>
         setTimeout(() => {
           window.location.href = "quiz_single.php";
