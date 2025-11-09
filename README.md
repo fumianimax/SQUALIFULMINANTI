@@ -62,7 +62,7 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
 
 # :zap: THE TEAM :zap: - :shark: LIGHTNING SHARKS :shark:
 * Barbieri Edoardo
-* Marco Battagliola
+* Battagliola Marco
 * Diago Ester
 * Fumiani Massimo
 * Oddone Maria Caterina
