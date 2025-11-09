@@ -4,6 +4,7 @@ import json
 import hashlib
 import logging
 import httpx
+import warnings
 from dotenv import load_dotenv
 from xrpl.clients import JsonRpcClient
 from xrpl.wallet import Wallet
@@ -11,6 +12,9 @@ from xrpl.models.transactions import Payment
 from xrpl.asyncio.transaction import autofill_and_sign, submit_and_wait
 from xrpl.utils import str_to_hex, xrp_to_drops
 
+# Shut down warnings on the terminal
+warnings.filterwarnings("ignore", message="coroutine.*was never awaited")
+warnings.filterwarnings("ignore", message="asyncio.run() cannot be called from a running event loop")
 load_dotenv()
 
 # CONFIG

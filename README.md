@@ -15,7 +15,7 @@
 
 1. Some prerequisites: Python 3.10+ (3.11 recommended) • Node 18+ and npm or pnpm • MongoDB running locally (mongodb://127.0.0.1:27017) or a cloud URI • Internet access to XRPL Testnet (https://s.altnet.rippletest.net:51234)
 
-2. On your terminal run (to clone this repo):
+2. Open a new foder and in your terminal run (to clone this repo):
     - git clone https://github.com/fumianimax/SQUALIFULMINANTI.git QUIZ
 
 3. Backend
@@ -24,6 +24,11 @@
     - cd QUIZ/backend
     - python3 -m venv .venv
     - source .venv/bin/activate 
+    
+    3.1.5 At any time, to stop, delete and re-run yout venv:
+    - deactivate
+    - rm -rf .venv
+    - re-run: back to point 3.1
 
 	3.2 Install dependencies
 	- pip install -U pip

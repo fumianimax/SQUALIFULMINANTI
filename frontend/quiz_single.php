@@ -220,7 +220,7 @@ if ($final_message_ready && !$show_message_after) {
 </head>
 <body>
   <div class="container">
-    <h1>Question [<?= $current_index + 1 ?> / <?= count($quiz_data['quiz'] ?? []) ?>]</h1>
+    <h1>Question [<?= min($current_index + 1, 10) ?> / <?= count($quiz_data['quiz'] ?? []) ?>]</h1>
     <div class="progress"><div class="progress-bar" id="progress"></div></div>
 
     <!-- MESSAGGIO DOPO RISPOSTA (5 sec) -->

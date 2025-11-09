@@ -1,4 +1,3 @@
-# backend/auth.py
 from xrpl.wallet import generate_faucet_wallet
 from xrpl.clients import JsonRpcClient
 from fastapi import APIRouter, HTTPException
@@ -7,7 +6,9 @@ from jose import jwt
 from backend.database import users_col
 from backend.config import JWT_SECRET, JWT_ALGORITHM
 import asyncio
+import warnings
 
+warnings.filterwarnings("ignore", message="error reading bcrypt version")
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

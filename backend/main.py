@@ -1,4 +1,13 @@
+import logging
+logging.getLogger("passlib").setLevel(logging.ERROR)
+logging.getLogger("passlib.handlers.bcrypt").setLevel(logging.ERROR)
+
 import sys, os
+import warnings
+
+os.environ["PYTHONWARNINGS"] = "ignore::Warning"
+warnings.filterwarnings("ignore")
+
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from fastapi import FastAPI
 from backend import auth, quiz
@@ -21,7 +30,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     init_db()
-    await fund_server()
+    fund_server()
     print("Database initialized at the start")
 
 # Registering routes
