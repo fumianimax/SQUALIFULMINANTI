@@ -26,7 +26,7 @@ async def register_user(data: dict):
     if not username or not password:
         raise HTTPException(400, "Missing field")
     if users_col.find_one({"username": username}):
-        raise HTTPException(400, "Existing user! Please log in!")
+        raise HTTPException(400, "Existing user! Please Sign-in!")
 
     client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
 
