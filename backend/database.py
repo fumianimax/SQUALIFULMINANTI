@@ -11,12 +11,12 @@ quiz_col = None
 answers_col = None
 
 def init_db():
-    """Inizializza la connessione a MongoDB"""
+    """Initialize connection to the MongoDB Database"""
     global client, db, users_col, quiz_col, answers_col
     try:
         mongo_url = os.getenv("MONGO_URL")
         if not mongo_url:
-            raise ValueError("MONGO_URL non trovata nel .env")
+            raise ValueError("MONGO_URL not found in .env")
         
         client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
         client.admin.command('ping')        
@@ -29,7 +29,7 @@ def init_db():
         print("MongoDB connection failed:", e)
 
 def get_db():
-    """Ritorna l’oggetto del database"""
+    """Return database object, initializing if necessary"""
     global db
     if db is None:
         init_db()

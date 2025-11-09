@@ -6,10 +6,10 @@ from backend.database import users_col
 
 async def get_current_user(authorization: str = Header(None)):
     """
-    Estrae l'utente dal token JWT nell'header Authorization: Bearer <token>
+    Extract user from the JWT token from the header Authorization: Bearer <token>
     """
     if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Token mancante o non valido")
+        raise HTTPException(status_code=401, detail="Token missing or not found")
 
     token = authorization.split(" ")[1]
 
@@ -17,13 +17,13 @@ async def get_current_user(authorization: str = Header(None)):
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
-            raise HTTPException(status_code=401, detail="Token non valido")
+            raise HTTPException(status_code=401, detail="Token not valid")
     except JWTError as e:
-        raise HTTPException(status_code=401, detail=f"Token scaduto o non valido: {e}")
+        raise HTTPException(status_code=401, detail=f"Token expired or not valid: {e}")
 
-    # Opzionale: verifica che l'utente esista nel DB
+    # Check if the user exists in the DB
     user = users_col.find_one({"username": username})
     if not user:
-        raise HTTPException(status_code=401, detail="Utente non trovato")
+        raise HTTPException(status_code=401, detail="User not found")
 
     return {"username": username}

@@ -1,3 +1,6 @@
+# Welcome to XRPL Quiz!!
+Ready to learn about blockchain and XRP Ledger?
+
 # How to run the project
 
 * 1. Some prerequisites: Python 3.10+ (3.11 recommended) • Node 18+ and npm or pnpm • MongoDB running locally (mongodb://127.0.0.1:27017) or a cloud URI • Internet access to XRPL Testnet (https://s.altnet.rippletest.net:51234)
@@ -28,3 +31,12 @@
 
 * 5. Enjoy
     - Go to: http://127.0.0.1:8080
+
+
+
+# TO DOs in future releases:
+* More (randomized) questions
+* Insert quesions in a database
+* Insert timer also in the description panel
+* Minor Fix: Change color of the description panel and the description visualization
+* Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage

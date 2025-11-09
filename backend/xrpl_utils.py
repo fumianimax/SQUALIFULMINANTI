@@ -17,16 +17,15 @@ load_dotenv()
 SERVER_SEED = os.getenv("XRPL_SEED")
 SERVER_XRPL_ADDRESS = os.getenv("SERVER_XRPL_ADDRESS")
 if not SERVER_SEED or not SERVER_XRPL_ADDRESS:
-    raise RuntimeError("XRPL_SEED e SERVER_XRPL_ADDRESS obbligatori nel .env")
-
+    raise RuntimeError("XRPL_SEED e SERVER_XRPL_ADDRESS not found in .env")
 client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
 
 # -------------------------------------------------
-# FUND SERVER – VERSIONE SICURA PER MAC + PYTHON 3.14
+# INITIAL SERVER FUNDING
 # -------------------------------------------------
 async def fund_server():
     try:
-        # Controlla saldo
+        # Check current balance
         info = await client.request({
             "command": "account_info",
             "account": SERVER_XRPL_ADDRESS,
@@ -34,12 +33,11 @@ async def fund_server():
         })
         balance_drops = int(info.result["account_data"]["Balance"])
         if balance_drops >= 200_000_000:  # 200 XRP
-            logging.info(f"Server già fundato: {balance_drops / 1_000_000:.2f} XRP")
+            logging.info(f"Server already funded: {balance_drops / 1_000_000:.2f} XRP")
             return
 
-        logging.info("Richiedo fondi dal faucet testnet...")
+        logging.info("Funding request from faucet testnet...")
         
-        # Usa httpx in modo CORRETTO (no asyncio.run!)
         async with httpx.AsyncClient(timeout=30.0) as http:
             response = await http.post(
                 "https://faucet.altnet.rippletest.net/accounts",
@@ -49,16 +47,16 @@ async def fund_server():
             if response.status_code == 200:
                 data = response.json()
                 amount = data.get("amount", "100")
-                logging.info(f"Faucet OK: +{amount} XRP in arrivo a {SERVER_XRPL_ADDRESS}")
+                logging.info(f"Faucet OK: +{amount} XRP arriving to {SERVER_XRPL_ADDRESS}")
             else:
-                logging.warning(f"Faucet ha risposto {response.status_code}: {response.text}")
+                logging.warning(f"Faucet answered {response.status_code}: {response.text}")
 
     except Exception as e:
-        logging.error(f"Errore funding server: {e}")
+        logging.error(f"Error funding server: {e}")
         pass
 
 # -------------------------------------------------
-# PROOF: USER → SERVER
+# PROOF: USER \to SERVER
 # -------------------------------------------------
 async def send_quiz_proof(wallet_seed: str, data_dict: dict) -> str:
     try:
@@ -82,16 +80,16 @@ async def send_quiz_proof(wallet_seed: str, data_dict: dict) -> str:
         signed_tx = await autofill_and_sign(tx, client, wallet)
         response = await submit_and_wait(signed_tx, client)
         tx_hash = response.result["hash"]
-        logging.info(f"PROOF INVIATA: {tx_hash}")
+        logging.info(f"PROOF CORRECTLY SENT: {tx_hash}")
         return tx_hash
 
     except Exception as e:
         err = str(e)[:100]
-        logging.error(f"PROOF FALLITA: {err}")
+        logging.error(f"PROOF FAILED: {err}")
         return f"proof_error: {err}"
 
 # -------------------------------------------------
-# PREMIO: SERVER → USER
+# PREMIO: SERVER \to USER
 # -------------------------------------------------
 async def send_prize(to_address: str, amount_xrp: float) -> str:
     try:
@@ -111,5 +109,5 @@ async def send_prize(to_address: str, amount_xrp: float) -> str:
 
     except Exception as e:
         err = str(e)[:100]
-        logging.error(f"PREMIO FALLITO: {err}")
+        logging.error(f"PRIZE FAILED: {err}")
         return f"tx_error: {err}"

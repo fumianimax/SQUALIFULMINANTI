@@ -12,7 +12,7 @@ router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(pw: str) -> str:
-    pw = pw[:72]  # Tronca a 72 caratteri
+    pw = pw[:72]
     return pwd_context.hash(pw)
 
 def verify_password(pw: str, hashed: str) -> bool:
@@ -24,14 +24,14 @@ async def register_user(data: dict):
     username = data.get("username")
     password = data.get("password")
     if not username or not password:
-        raise HTTPException(400, "Dati mancanti")
+        raise HTTPException(400, "Missing field")
     if users_col.find_one({"username": username}):
-        raise HTTPException(400, "Utente esiste già")
+        raise HTTPException(400, "Existing user! Please log in!")
 
     client = JsonRpcClient("https://s.altnet.rippletest.net:51234")
 
     try:
-        # Genera wallet
+        # Wallet generation
         wallet = await asyncio.to_thread(generate_faucet_wallet, client, debug=True)
         
         users_col.insert_one({
@@ -42,10 +42,10 @@ async def register_user(data: dict):
             "initial_balance": 10  
         })
 
-        return {"msg": "User registered", "xrpl_address": wallet.classic_address}
+        return {"msg": "User registered!", "XRPL Address": wallet.classic_address}
 
     except Exception as e:
-        raise HTTPException(500, f"Errore XRPL: {e}")
+        raise HTTPException(500, f"Error XRPL: {e}")
     
 @router.post("/login")
 async def login_user(data: dict):
@@ -53,6 +53,6 @@ async def login_user(data: dict):
     password = data.get("password")
     user = users_col.find_one({"username": username})
     if not user or not verify_password(password, user["password"]):
-        raise HTTPException(401, "Credenziali errate")
+        raise HTTPException(401, "Wrong credentials")
     token = jwt.encode({"sub": username}, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return {"access_token": token, "xrpl_address": user["xrpl_address"]}
