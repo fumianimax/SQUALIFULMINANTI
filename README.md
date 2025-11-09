@@ -1,4 +1,5 @@
-# Welcome to XRPL Quiz!!
+# Welcome to XRPL Quiz!
+A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University of Roma3.
 ## Ready to learn about blockchain and XRP Ledger?
 
 * Play a daily quiz and compete with others to prove your knowledge!!
@@ -44,16 +45,25 @@
 5. Open the browser and Enjoy the "XRPL QUIZ"!
     - Go to: http://127.0.0.1:8080
 
-
-
 # TO DOs (for future releases):
-* More (randomized) questions
-* Insert quesions in a database
+## Graphical
 * Insert timer also in the description panel
-* Minor Fix: Change color of the description panel and the description visualization
-* Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage
-* Answer description of Question 10 showing 11/10
+* [FIXED] Improve the description visualization for better readibility
+* [FIXED] Answer description of Question 10 showing 11/10
 * Balance button showing a rectangle
 * Change box with the proof details to another color since "Proof" is not readable
 * Add a "home button" after the quiz or a message showing "Come back tomorrow for another quiz"
+## Logical
 * Show leaderboards and other scores
+* Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage
+* More (randomized) questions
+* Insert quesions in a database
+
+# :zap: THE TEAM :zap: - :shark: LIGHTNING SHARKS :shark:
+* Barbieri Edoardo
+* Marco Battagliola
+* Diago Ester
+* Fumiani Massimo
+* Oddone Maria Caterina
+* Pistocchio Aurora
+* Pusceddu Marco Egidio
