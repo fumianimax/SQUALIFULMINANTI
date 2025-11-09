@@ -16,13 +16,12 @@
 1. Some prerequisites: Python 3.10+ (3.11 recommended) • Node 18+ and npm or pnpm • MongoDB running locally (mongodb://127.0.0.1:27017) or a cloud URI • Internet access to XRPL Testnet (https://s.altnet.rippletest.net:51234)
 
 2. On your terminal run (to clone this repo):
-    - git clone https://github.com/fumianimax/SQUALIFULMINANTI.git
-    - cd SQUALIFULMINANTI
+    - git clone https://github.com/fumianimax/SQUALIFULMINANTI.git QUIZ
 
 3. Backend
 
     3.1 Create and activate a venv
-    - cd backend
+    - cd QUIZ/backend
     - python3 -m venv .venv
     - source .venv/bin/activate 
 
@@ -34,7 +33,7 @@
 	- uvicorn main:app --reload --port 8000
 
 4. Frontend: open a second terminal in the root of the project:
-    - cd frontend
+    - cd QUIZ/frontend
     - php -S 127.0.0.1:8080
 
 5. Open the browser and Enjoy the "XRPL QUIZ"!
