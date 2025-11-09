@@ -1,12 +1,21 @@
-flask
-flask-cors
+# flask
+# flask-cors
+# python-dotenv
+# uvicorn[standard]
+# xrpl-py
+# pymongo
+# passlib[bcrypt]
+# python-jose[cryptography]
+# jose
+# passlib
+# fastapi
+# dotenv
+
+fastapi
+uvicorn[standard]
 pymongo
 python-dotenv
 xrpl-py
-fastapi
-uvicorn[standard]
-xrpl-py>=2.3.0
-pymongo
-python-dotenv
 passlib[bcrypt]
 python-jose[cryptography]
+pyjwt
