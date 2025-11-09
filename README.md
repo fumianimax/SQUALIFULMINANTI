@@ -1,5 +1,6 @@
-# Welcome to XRPL Quiz!
+# :zap: Welcome to XRPL Quiz! :shark:
 A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University of Roma3.
+
 ## Ready to learn about blockchain and XRP Ledger?
 
 * Play a daily quiz and compete with others to prove your knowledge!!
@@ -46,14 +47,14 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
     - Go to: http://127.0.0.1:8080
 
 # TO DOs (for future releases):
-## Graphical
+## Graphic Design
 * Insert timer also in the description panel
 * [FIXED] Improve the description visualization for better readibility
 * [FIXED] Answer description of Question 10 showing 11/10
 * Balance button showing a rectangle
 * Change box with the proof details to another color since "Proof" is not readable
 * Add a "home button" after the quiz or a message showing "Come back tomorrow for another quiz"
-## Logical
+## Improvements and New Features
 * Show leaderboards and other scores
 * Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage
 * More (randomized) questions
