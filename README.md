@@ -39,7 +39,7 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
 
 4. Backend
 
-    - cd backend
+    - cd QUIZ/backend
 	- uvicorn main:app --reload --port 8000
 
     4.1 Important note: DON'T CLOSE THIS TERMINAL and LET HIM RUN
