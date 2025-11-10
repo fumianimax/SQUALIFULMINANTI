@@ -24,6 +24,7 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
 
     3.1 Create and activate a venv
     - cd QUIZ/backend
+    - rm -rf .venv
     - python3 -m venv .venv
     - source .venv/bin/activate 
     
