@@ -20,31 +20,37 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
 2. Open a new foder and in your terminal run (to clone this repo):
     - git clone https://github.com/fumianimax/SQUALIFULMINANTI.git QUIZ
 
-3. Backend
+3. Requirements
 
     3.1 Create and activate a venv
-    - cd QUIZ/backend
+    - cd QUIZ
     - rm -rf .venv
     - python3 -m venv .venv
     - source .venv/bin/activate 
-    
+
     3.1.5 At any time, to stop, delete and re-run your venv:
     - deactivate
     - rm -rf .venv
     - re-run: back to point 3.1
 
-	3.2 Install dependencies
+    3.2 Install requirements
 	- pip install -U pip
 	- pip install -r requirements.txt
 
-  	3.4 Start the server backend and LEAVE THIS TERMINAL OPEN!!
+4. Backend
+
+    - cd backend
 	- uvicorn main:app --reload --port 8000
 
-4. Frontend: open a second terminal in the root of the project:
+    4.1 Important note: DON'T CLOSE THIS TERMINAL and LET HIM RUN
+
+5. Frontend: 
+
+    5.1 Open a second terminal in the root of the project:
     - cd QUIZ/frontend
     - php -S 127.0.0.1:8080
 
-5. Open the browser and Enjoy the "XRPL QUIZ"!
+6. Open the browser and Enjoy the "XRPL QUIZ"!
     - Go to: http://127.0.0.1:8080
 
 # TO DOs (for future releases):
