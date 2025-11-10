@@ -28,7 +28,7 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
     - python3 -m venv .venv
     - source .venv/bin/activate 
 
-    3.1.5 At any time, to stop, delete and re-run your venv:
+    3.1.1 At any time, to stop, delete and re-run your venv:
     - deactivate
     - rm -rf .venv
     - re-run: back to point 3.1
