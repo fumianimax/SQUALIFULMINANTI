@@ -1,5 +1,5 @@
-# :zap: Welcome to XRPL Quiz! :shark:
-A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University of Roma3.
+# :zap: Welcome to XRPL QUIZ! :shark:
+A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University of Roma Tre.
 
 ## Ready to learn about blockchain and XRP Ledger?
 
@@ -18,56 +18,57 @@ A project of UniTN2 team at <b>IXH 25 - Italian XRPL Hackathon</b> at University
 1. Some prerequisites: Python 3.10+ (3.11 recommended) • Node 18+ and npm or pnpm • MongoDB running locally (mongodb://127.0.0.1:27017) or a cloud URI • Internet access to XRPL Testnet (https://s.altnet.rippletest.net:51234)
 
 2. Open a new foder and in your terminal run (to clone this repo):
-    - git clone https://github.com/fumianimax/SQUALIFULMINANTI.git QUIZ
+    - ``` git clone https://github.com/fumianimax/SQUALIFULMINANTI.git QUIZ ```
 
 3. Requirements
 
     3.1 Create and activate a venv
-    - cd QUIZ
-    - rm -rf .venv
-    - python3 -m venv .venv
-    - source .venv/bin/activate 
+    - ``` cd QUIZ ```
+    - ``` rm -rf .venv ```
+    - ``` python3 -m venv .venv ``` 
+    - ``` source .venv/bin/activate ``` 
 
     3.1.1 At any time, to stop, delete and re-run your venv:
-    - deactivate
-    - rm -rf .venv
+    - ``` deactivate ```
+    - ``` rm -rf .venv ```
     - re-run: back to point 3.1
 
     3.2 Install requirements
-	- pip install -U pip
-	- pip install -r requirements.txt
+	- ``` pip install -U pip ```
+	- ``` pip install -r requirements.txt ```
 
 4. Backend
 
-    - cd QUIZ/backend
-	- uvicorn main:app --reload --port 8000
+    - ``` cd QUIZ/backend ```
+	- ``` uvicorn main:app --reload --port 8000 ```
 
     4.1 Important note: DON'T CLOSE THIS TERMINAL and LET HIM RUN
 
 5. Frontend: 
 
     5.1 Open a second terminal in the root of the project:
-    - cd QUIZ/frontend
-    - php -S 127.0.0.1:8080
+    - ``` cd QUIZ/frontend ``` 
+    - ``` php -S 127.0.0.1:8080 ```
 
 6. Open the browser and Enjoy the "XRPL QUIZ"!
     - Go to: http://127.0.0.1:8080
 
 # TO DOs (for future releases):
 ## Graphic Design
-* Insert timer also in the description panel
-* [FIXED] Improve the description visualization for better readibility
-* [FIXED] Answer description of Question 10 showing 11/10
-* Balance button showing a rectangle
-* Change box with the proof details to another color since "Proof" is not readable
-* Add a "home button" after the quiz or a message showing "Come back tomorrow for another quiz"
+- [ ] Insert timer also in the description panel
+- [x] Improve the description visualization for better readibility
+- [x] Answer description of Question 10 showing 11/10
+- [ ] Balance button showing a rectangle
+- [ ] Change box with the proof details to another color since "Proof" is not readable
+- [ ] Add a "home button" after the quiz or a message showing "Come back tomorrow for another quiz"
 ## Improvements and New Features
-* Show leaderboards and other scores
-* Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage
-* More (randomized) questions
-* Insert quesions in a database
+- [ ] Show leaderboards and other scores
+- [ ] Correct logic behind the prize division: jackpot and consolation prize are divided among all users that answer correctly up to a certain percentage
+- [ ] More (randomized) questions
+- [ ] Insert quesions in a database
 
-# :zap: THE TEAM :zap: - :shark: LIGHTNING SHARKS :shark:
+# :zap: THE TEAM :zap:
+## :shark: LIGHTNING SHARKS :shark:
 * Barbieri Edoardo
 * Battagliola Marco
 * Diago Ester
